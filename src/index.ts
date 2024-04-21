@@ -1,4 +1,7 @@
-import { Application, Assets, AssetsManifest, Sprite } from 'pixi.js'
+import { Application, Assets } from 'pixi.js'
+import { manifest } from './assets';
+import { Scene } from './Scene';
+
 
 const app = new Application<HTMLCanvasElement>({
 	view: document.getElementById("pixi-canvas") as HTMLCanvasElement,
@@ -9,35 +12,35 @@ const app = new Application<HTMLCanvasElement>({
 	height: 480
 });
 
-export const manifest:AssetsManifest  = {
-    bundles: [
-        {
-            name : "AssetsPJ",
-            assets:
-            {
-                "Clampy the clamp" : "./clampy.png"
-            }
-        },
-    ]
-}
+window.addEventListener("resize",()=>{
+    const scaleY = window.innerHeight / app.screen.height;
+    const scaleX = window.innerWidth / app.screen.width;
+    const scale = Math.min(scaleX,scaleY);
 
-async function init(): Promise<void> {
-    // Assets.init must only happen once! 
-    // Pack all your bundles into one manifest
-    await Assets.init({ manifest: manifest });
+    const gameHeight = Math.round(app.screen.height + scale);
+    const gameWidth = Math.round(app.screen.width + scale);
 
-    // Load the bundles you need
-    await Assets.loadBundle("AssetsPJ")
-    console.log("hola0")
-}
+    const marginV = Math.floor((window.innerHeight - gameHeight)/2);
+    const marginH = Math.floor((window.innerWidth - gameWidth)/2);
+    
 
-console.log("hola1")
-const clampy= new Sprite(Assets.get("Clampy the clamp"))
-console.log("hola2")
-clampy.anchor.set(0.5);
-clampy.x
-clampy.x = app.screen.width / 2;
-clampy.y = app.screen.height / 2;
+    app.view.style.height = gameHeight + "px";
+    app.view.style.width = gameWidth + "px";
 
-app.stage.addChild(clampy);
+    app.view.style.marginLeft = marginH + "px"
+    app.view.style.marginRight = marginH + "px"
+    app.view.style.marginTop = marginV + "px"
+    app.view.style.marginBottom = marginV + "px"
+
+});
+
+window.dispatchEvent(new Event("resize"));
+
+Assets.init({ manifest }).then(() =>{
+    Assets.loadBundle("AssetsPJ").then(() =>{
+        const myScene = new Scene();
+        app.stage.addChild(myScene);
+    });
+});
+
 
