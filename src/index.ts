@@ -1,5 +1,6 @@
 import { Application, Assets } from 'pixi.js'
 import { manifest } from './assets';
+import { Keyboard } from './keyboard';
 import { Scene } from './Scene';
 
 
@@ -12,6 +13,7 @@ const app = new Application<HTMLCanvasElement>({
 	height: 480
 });
 
+Keyboard.initilize();
 window.addEventListener("resize",()=>{
     const scaleY = window.innerHeight / app.screen.height;
     const scaleX = window.innerWidth / app.screen.width;
