@@ -1,18 +1,19 @@
-import { Application, Assets } from 'pixi.js'
+import { Application, Assets, Ticker} from 'pixi.js'
 import { manifest } from './assets';
 import { Keyboard } from './keyboard';
 import { Scene } from './Scene';
 
+export const WIDTH=1920;
+export const HEIGHT= 1080;
 
-const app = new Application<HTMLCanvasElement>({
+export const app = new Application<HTMLCanvasElement>({
 	view: document.getElementById("pixi-canvas") as HTMLCanvasElement,
 	resolution: window.devicePixelRatio || 1,
 	autoDensity: true,
 	backgroundColor: 0x6495ed,
-	width: 640,
-	height: 480
+	width: WIDTH,
+	height: HEIGHT
 });
-
 Keyboard.initilize();
 window.addEventListener("resize",()=>{
     const scaleY = window.innerHeight / app.screen.height;
@@ -42,6 +43,9 @@ Assets.init({ manifest }).then(() =>{
     Assets.loadBundle("AssetsPJ").then(() =>{
         const myScene = new Scene();
         app.stage.addChild(myScene);
+        Ticker.shared.add(function (deltaFrame){
+            myScene.update(Ticker.shared.deltaMS, deltaFrame);
+        });
     });
 });
 

@@ -15,11 +15,16 @@ export class Keyboard {
         
         this.bool=true;
         document.addEventListener("keydown", Keyboard.keyPressed);
-
+        document.addEventListener("keyup", Keyboard.keyUnpressed);
     }
 
     public static keyPressed(event:KeyboardEvent){
         Keyboard.map.set(event.code, true);
+        Keyboard.down.emit(event.code);
+    }
+
+    public static keyUnpressed(event:KeyboardEvent){
+        Keyboard.map.set(event.code, false);
         Keyboard.down.emit(event.code);
     }
 
