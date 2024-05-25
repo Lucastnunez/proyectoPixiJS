@@ -8,6 +8,5 @@ export class ContPhysics extends Container implements Updateable{
     public update(deltaSeconds: number): void{
         this.x+= this.speed.x * deltaSeconds;
         this.y+= this.speed.y * deltaSeconds;
-        
     }
 }

@@ -1,5 +1,5 @@
 import { Updateable } from "./Updateable";
-import { BLEND_MODES, Sprite, Texture, Point } from "pixi.js";
+import { Sprite, Texture, Point, BLEND_MODES } from "pixi.js";
 
 export class Light extends Sprite implements Updateable{
 
@@ -8,6 +8,7 @@ export class Light extends Sprite implements Updateable{
     constructor(canvas:HTMLCanvasElement){
         
         super(Texture.from(canvas));
+        this.anchor.set(0.5,0.5);
         this.blendMode=BLEND_MODES.ADD;
 
     }

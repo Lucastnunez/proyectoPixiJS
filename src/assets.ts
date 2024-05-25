@@ -7,7 +7,7 @@ export const manifest:AssetsManifest  = {
             assets:
             {
                 "Clampy" : "./clampy.png",
-                "Test" : "./test.png"
+                "Test" : "./test.png" 
             }
         }
     ]

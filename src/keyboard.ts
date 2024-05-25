@@ -12,7 +12,6 @@ export class Keyboard {
         if (this.bool){
             return;
         }
-        
         this.bool=true;
         document.addEventListener("keydown", Keyboard.keyPressed);
         document.addEventListener("keyup", Keyboard.keyUnpressed);
