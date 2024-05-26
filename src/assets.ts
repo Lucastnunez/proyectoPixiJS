@@ -6,8 +6,10 @@ export const manifest:AssetsManifest  = {
             name : "AssetsPJ",
             assets:
             {
-                "Clampy" : "./clampy.png",
-                "Test" : "./test.png" 
+                "Clampy" : "./player.png",
+                "Test" : "./Map/mapBG.png" ,
+                "Paper" : "./HUD/paper.png",
+                "AppleTree" : "./Map/apple_tree (2).png"
             }
         }
     ]

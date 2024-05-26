@@ -17,7 +17,7 @@ export class Player extends ContPhysics{
 
         this.sprite.x =0;
         this.sprite.y =0;   
-        this.sprite.scale.set(0.5, 0.5);
+        this.sprite.scale.set(0.18, 0.18);
         this.sprite.anchor.set(0.5,0.5);
         
         this.addChild(this.sprite);
@@ -28,20 +28,20 @@ export class Player extends ContPhysics{
         super.update(deltaMS/1000);
 
         if (Keyboard.map.get("ArrowUp") || Keyboard.map.get("KeyW")){
-            this.speed.y=-20
+            this.speed.y=-50
         }else{
             if (Keyboard.map.get("ArrowDown") || Keyboard.map.get("KeyS")){
-                this.speed.y=20
+                this.speed.y=50
             }else{
                 this.speed.y=0
             }
         }
 
         if (Keyboard.map.get("ArrowLeft") || Keyboard.map.get("KeyA")){
-            this.speed.x=-20
+            this.speed.x=-50
         }else{
             if (Keyboard.map.get("ArrowRight") || Keyboard.map.get("KeyD")){
-                this.speed.x=20
+                this.speed.x=50
             }else{
                 this.speed.x=0
             }
@@ -61,19 +61,19 @@ export class Player extends ContPhysics{
 
     private setGoals(){
         
-        this.goals.set("Apples",Math.floor(GameMisc.RandomNumberInRange(0,10)));
-        this.goals.set("Lemons",Math.floor(GameMisc.RandomNumberInRange(0,10)));
-        this.goals.set("Bananas",Math.floor(GameMisc.RandomNumberInRange(0,10)));
-        this.goals.set("Grapes",Math.floor(GameMisc.RandomNumberInRange(0,10)));
+        this.goals.set("Apples",GameMisc.RandomNumberInRange(0,10));
+        this.goals.set("Lemons",GameMisc.RandomNumberInRange(0,10));
+        this.goals.set("Bananas",GameMisc.RandomNumberInRange(0,10));
+        this.goals.set("Grapes",GameMisc.RandomNumberInRange(0,10));
 
         while (this.goals.get("Apples")!+this.goals.get("Lemons")!+this.goals.get("Bananas")!+this.goals.get("Grapes")!<5){
-            this.goals.set("Apples",Math.floor(GameMisc.RandomNumberInRange(0,10)));
-            this.goals.set("Lemons",Math.floor(GameMisc.RandomNumberInRange(0,10)));
-            this.goals.set("Bananas",Math.floor(GameMisc.RandomNumberInRange(0,10)));
-            this.goals.set("Grapes",Math.floor(GameMisc.RandomNumberInRange(0,10)));
+            this.goals.set("Apples",GameMisc.RandomNumberInRange(0,10));
+            this.goals.set("Lemons",GameMisc.RandomNumberInRange(0,10));
+            this.goals.set("Bananas",GameMisc.RandomNumberInRange(0,10));
+            this.goals.set("Grapes",GameMisc.RandomNumberInRange(0,10));
         }
-1    }
-    getGoals() {
+    }
+    public getGoals():Map<String,number> {
         return this.goals;
     }
 }

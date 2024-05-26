@@ -1,4 +1,4 @@
-import { Container, Sprite, RenderTexture, Texture, BLEND_MODES } from "pixi.js";
+import { Container, Sprite, RenderTexture, Texture } from "pixi.js";
 import { ContPhysics } from "./ContPhysics";
 import { Player } from "./Player";
 import { Updateable } from "./Updateable";
@@ -16,6 +16,7 @@ export class Scene extends Container implements Updateable{
     private lightContainer = new Container();
     private lightTexture= RenderTexture.create({width:WIDTH,height:HEIGHT});
     private background!: GameMap;
+    private hud=new Container();
 
     constructor()
     {
@@ -25,14 +26,19 @@ export class Scene extends Container implements Updateable{
         canvas.width=64;
         canvas.height=64;
         const ctx = canvas.getContext("2d");
+        
 
         if(ctx==null){
             return;
         }
-        
+   
+
         this.background= new GameMap(1)
         this.background.position.set(110,110);
-        this.world.addChild(this.background.mapSprite);
+
+        this.background.generateTrees(this.prota.getGoals());
+      
+        this.world.addChild(this.background);
         
 
         this.prota.spawnPlayer();
@@ -40,9 +46,10 @@ export class Scene extends Container implements Updateable{
         this.world.addChild(this.physicsProta);
         this.addChild(this.world)
 
-        this.addChild(new Sprite(this.lightTexture)).blendMode = BLEND_MODES.MULTIPLY;
-        this.addChild(new Sprite(this.lightTexture)).blendMode = BLEND_MODES.MULTIPLY;
-        this.addChild(new Sprite(this.lightTexture)).blendMode = BLEND_MODES.MULTIPLY;
+
+        // this.addChild(new Sprite(this.lightTexture)).blendMode = BLEND_MODES.MULTIPLY;
+        // this.addChild(new Sprite(this.lightTexture)).blendMode = BLEND_MODES.MULTIPLY;
+        // this.addChild(new Sprite(this.lightTexture)).blendMode = BLEND_MODES.MULTIPLY;
         
         const black = this.lightContainer.addChild(new Sprite(Texture.WHITE));
         black.tint = 0x222222;
@@ -60,14 +67,26 @@ export class Scene extends Container implements Updateable{
         ctx.fill();
 
         const torchLight = new Light(canvas); 
-        torchLight.x=WIDTH/2;
-        torchLight.y=HEIGHT/2;
-        torchLight.scale.set(6);
+        torchLight.x=WIDTH/2-70;
+        torchLight.y=HEIGHT/2-120;
+        torchLight.scale.set(10);
         torchLight.tint=0xffeadd;
         torchLight.alpha=0.75;
+
+        
     
         this.prota.addChild(torchLight);
         this.lightContainer.addChild(torchLight);
+
+        //Add the goal list to the hud
+        const paper=Sprite.from("Paper")
+        paper.x=100;
+        paper.y=200;
+        paper.scale.set(0.2,0.2)
+        paper.anchor.set(0.5,0.5);
+
+        this.hud.addChild(paper);
+        this.addChild(this.hud);
         
         
         console.log(this.prota.getGoals().get("Apples")+"Apples")
@@ -77,14 +96,12 @@ export class Scene extends Container implements Updateable{
 
             this.prota.update(deltaMS);
 
-            //this.background.x=-a * this.worldTransform.a
-        
             this.world.x=-this.prota.x * this.worldTransform.a + WIDTH/2;
             this.world.y=-this.prota.y * this.worldTransform.d + HEIGHT/2;
-            this.background.mapSprite.x=this.world.x*0.5;
-            this.background.mapSprite.y=this.world.y*0.5;
+            this.background.x=this.world.x*0.5;
+            this.background.y=this.world.y*0.5;
 
-            app.renderer.render(this.lightContainer,{renderTexture: this.lightTexture, clear:false});
+            app.renderer.render(this.lightContainer,{renderTexture: this.lightTexture, clear:true});
 
     }
 
