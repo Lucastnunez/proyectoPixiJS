@@ -6,9 +6,9 @@ import { WIDTH, HEIGHT, app } from "./index";
 import { Light } from "./Light";
 import { GameMap } from "./GameMap";
 
-export class Scene extends Container implements Updateable{
+export class GameScene extends Container implements Updateable{
 
-    private prota: Player = new Player();
+    public prota: Player = new Player();
     private physicsProta: ContPhysics = new ContPhysics();
     
     private world:Container= new Container();
@@ -95,6 +95,7 @@ export class Scene extends Container implements Updateable{
         update(deltaMS:number, _deltaFrame:number){
 
             this.prota.update(deltaMS);
+            this.background.update();
 
             this.world.x=-this.prota.x * this.worldTransform.a + WIDTH/2;
             this.world.y=-this.prota.y * this.worldTransform.d + HEIGHT/2;

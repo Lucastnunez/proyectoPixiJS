@@ -11,6 +11,14 @@ export const manifest:AssetsManifest  = {
                 "Paper" : "./HUD/paper.png",
                 "AppleTree" : "./Map/apple_tree (2).png"
             }
+        },
+        {
+            name : "Map_1",
+            assets:
+            {
+                "Test" : "./Map/mapBG.png" , 
+            }
+            
         }
     ]
 }

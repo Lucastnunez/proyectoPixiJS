@@ -1,10 +1,11 @@
 import { Application, Assets, Ticker} from 'pixi.js'
 import { manifest } from './assets';
 import { Keyboard } from './keyboard';
-import { Scene } from './Scene';
+import { GameScene } from './GameScene';
 
 export const WIDTH=1920;
 export const HEIGHT= 1080;
+//960 504 mitad
 
 export const app = new Application<HTMLCanvasElement>({
     view: document.getElementById("pixi-canvas") as HTMLCanvasElement,
@@ -44,7 +45,7 @@ window.dispatchEvent(new Event("resize"));
 
 Assets.init({ manifest }).then(() =>{
     Assets.loadBundle("AssetsPJ").then(() =>{
-        const myScene = new Scene();
+        const myScene = new GameScene();
         app.stage.addChild(myScene);
         Ticker.shared.add(function (deltaFrame){
             myScene.update(Ticker.shared.deltaMS, deltaFrame);
