@@ -36,7 +36,7 @@ export class GameMap extends Container implements Updateable{
         this.mapSprite=Sprite.from("Test");
         this.mapSprite.x=WIDTH/2;
         this.mapSprite.y=HEIGHT/2;
-        this.mapSprite.scale.set(3.2,3.2);
+        //this.mapSprite.scale.set(3.2,3.2);
         this.addChild(this.mapSprite);
         this.treePositions=GameMisc.GetTreePositionsFromMap("map_1");
         
@@ -49,8 +49,8 @@ export class GameMap extends Container implements Updateable{
         //ver si se puede updatear el bg del index acá
         this.appleTrees.forEach(tree => {
 
-            if(((WIDTH/2)-Math.abs(tree.x))<50 && ((HEIGHT/2)-Math.abs(tree.y))){
-                
+            if(Math.abs((WIDTH/2)-(tree.getGlobalPosition().x))<150 && Math.abs((HEIGHT/2)-(tree.getGlobalPosition().y))<150){
+                 console.log("hola",tree.getGlobalPosition().x,tree.getGlobalPosition().y);
             }
             
         });
@@ -91,7 +91,7 @@ export class GameMap extends Container implements Updateable{
 
             //Se crean los minimos arboles necesarios (de bananas)
             for(let i=1;i<=minBanana;i++){
-                const bananaTree = new InteractableObject(Sprite.from("AppleTree"),"grab");
+                const bananaTree = new InteractableObject(Sprite.from("BananaTree"),"grab");
                 let coord;
                 let random=0;
 
@@ -142,7 +142,7 @@ export class GameMap extends Container implements Updateable{
                 
                 //Lo agrega al array de arboles de manzanas
                 this.appleTrees.push(appleTree);
-                this.addChild(appleTree.sprite);
+                this.addChild(appleTree);
                 appleTree.sprite.scale.set(0.3,0.3);
     
                 totalTrees-=1
@@ -160,14 +160,18 @@ export class GameMap extends Container implements Updateable{
             switch(random){
                 case 2:
                     tree=new InteractableObject(Sprite.from("AppleTree"),"grab");
+                    tree.sprite.scale.set(0.3,0.3);
                     this.appleTrees.push(tree);
                     break;
                 case 3:
                     tree=new InteractableObject(Sprite.from("BananaTree"),"grab");
+                    tree.sprite.scale.set(0.3,0.3);
                     this.bananaTrees.push(tree);
                     break; 
                 default:
                     tree=Sprite.from("Tree");
+                    tree.scale.set(0.3,0.3);
+                    tree.anchor.set(0.5,0.5);
                     break;
             }
             
@@ -185,6 +189,7 @@ export class GameMap extends Container implements Updateable{
                 this.treePositions.set(coord,false);
             };
 
+            
             this.addChild(tree);
         }
     }

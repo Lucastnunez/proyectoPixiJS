@@ -7,7 +7,7 @@ import { Keyboard } from "./keyboard";
 
 export class Player extends ContPhysics{
 
-    private sprite: Sprite = Sprite.from("Clampy");
+    private sprite: Sprite = Sprite.from("PlayerIdle1");
     private goals:Map<String,number>=new Map();
 
 
@@ -28,20 +28,20 @@ export class Player extends ContPhysics{
         super.update(deltaMS/1000);
 
         if (Keyboard.map.get("ArrowUp") || Keyboard.map.get("KeyW")){
-            this.speed.y=-50
+            this.speed.y=-150
         }else{
             if (Keyboard.map.get("ArrowDown") || Keyboard.map.get("KeyS")){
-                this.speed.y=50
+                this.speed.y=150
             }else{
                 this.speed.y=0
             }
         }
 
         if (Keyboard.map.get("ArrowLeft") || Keyboard.map.get("KeyA")){
-            this.speed.x=-50
+            this.speed.x=-150
         }else{
             if (Keyboard.map.get("ArrowRight") || Keyboard.map.get("KeyD")){
-                this.speed.x=50
+                this.speed.x=150
             }else{
                 this.speed.x=0
             }

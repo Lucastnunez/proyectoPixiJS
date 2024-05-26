@@ -14,12 +14,12 @@ export abstract class GameMisc{
         if (mapnumber=="map_1"){
             positions.set(new Point(190,189),true);
             positions.set(new Point(WIDTH/2+100,HEIGHT/2+50),true);
-            positions.set(new Point(WIDTH/2+150,HEIGHT/2+150),true);
-            positions.set(new Point(WIDTH/2+102,HEIGHT/2+250),true);
-            positions.set(new Point(WIDTH/2+103,HEIGHT/2+350),true);
-            positions.set(new Point(WIDTH/2+200,HEIGHT/2+50),true);
-            positions.set(new Point(WIDTH/2+400,HEIGHT/2+50),true);
-            positions.set(new Point(WIDTH/2+50,HEIGHT/2+450),true);
+            positions.set(new Point(WIDTH/2+100,HEIGHT/2+100),true);
+            positions.set(new Point(WIDTH/2+100,HEIGHT/2+150),true);
+            positions.set(new Point(WIDTH/2+100,HEIGHT/2+200),true);
+            positions.set(new Point(WIDTH/2+100,HEIGHT/2+250),true);
+            positions.set(new Point(WIDTH/2+100,HEIGHT/2+300),true);
+            positions.set(new Point(WIDTH/2+100,HEIGHT/2+450),true);
 
         }
 
