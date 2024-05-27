@@ -25,10 +25,14 @@ export class Player extends ContPhysics{
         this.addChild(this.sprite);
         this.setGoals();
 
-        this.inventory.set("apples",0);
-        this.inventory.set("bananas",0);
-        this.inventory.set("grapes",0);
-        this.inventory.set("lemons",0);
+        this.inventory.set("Apples",0);
+        this.inventory.set("Bananas",0);
+        this.inventory.set("Grapes",0);
+        this.inventory.set("Lemons",0);
+        GameMisc.event.on("grab apples",this.grabApple,this);
+        GameMisc.event.on("grab bananas",this.grabBanana,this);
+        GameMisc.event.on("grab grapes",this.grabGrape,this);
+        GameMisc.event.on("grab lemons",this.grabLemon,this);
     }
 
     public override update(deltaMS: number): void {
@@ -54,6 +58,7 @@ export class Player extends ContPhysics{
             }
         }
         
+        this.on("grab apples",this.grabApple);
     }
 
     public spawnPlayer(){
@@ -83,4 +88,45 @@ export class Player extends ContPhysics{
     public getGoals():Map<String,number> {
         return this.goals;
     }
+
+    public grabApple(){
+        let fruit=this.inventory.get("Apples")
+        if(fruit!=undefined){
+            fruit+=GameMisc.RandomNumberInRange(4,6);;
+            this.inventory.set("Apples",fruit);
+        }
+            
+        console.log("You grabbed some apples!",this.inventory.get("Apples"))
+    }
+
+    public grabBanana(){
+        let fruit=this.inventory.get("Bananas")
+        if(fruit!=undefined){
+            fruit+=GameMisc.RandomNumberInRange(4,6);
+            this.inventory.set("Bananas",fruit);
+        }
+            
+        console.log("You grabbed some bananas!",this.inventory.get("Bananas"))
+    }
+
+    public grabGrape(){
+        let fruit=this.inventory.get("Grapes")
+        if(fruit!=undefined){
+            fruit+=GameMisc.RandomNumberInRange(4,6);
+            this.inventory.set("Grapes",fruit);
+        }
+            
+        console.log("You grabbed some grapes!",this.inventory.get("Grapes"))
+    }
+
+    public grabLemon(){
+        let fruit=this.inventory.get("Lemons")
+        if(fruit!=undefined){
+            fruit+=GameMisc.RandomNumberInRange(4,6);
+            this.inventory.set("Lemons",fruit);
+        }
+            
+        console.log("You grabbed some lemons!",this.inventory.get("Lemons"))
+    }
+
 }

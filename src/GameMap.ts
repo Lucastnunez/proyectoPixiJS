@@ -13,10 +13,11 @@ export class GameMap extends Container implements Updateable{
     public mapSprite: Sprite;
     //hitboxes
     //lights
-    public appleTrees:Array<InteractableObject>= [];
-    public bananaTrees:Array<InteractableObject>= [];
-    public lemonBushes= [];
-    public grapeBushes= [];
+    public appleTrees:Array<InteractableObject>=new Array;
+    public bananaTrees:Array<InteractableObject>=new Array;
+    public lemonBushes:Array<InteractableObject>=new Array;
+    public grapeBushes: Array<InteractableObject>=new Array;
+
     public treePositions:ExtendedMap<Point,Boolean>;
     private interactingObject:InteractableObject|undefined = undefined;
     
@@ -49,10 +50,42 @@ export class GameMap extends Container implements Updateable{
     }
     update(): void {
         //ver si se puede updatear el bg del index acá
+
+
         if (this.interactingObject!=undefined){
 
             if (Keyboard.map.get("KeyE")){
-                GameMisc.event.emit("")
+                GameMisc.emitEvent(this.interactingObject.action);   
+                this.interactingObject.isInteractable(false);
+                let index;
+                this.interactingObject.sprite.alpha=1.0;
+
+                switch(this.interactingObject.action){
+                    case "grab apples":
+                        index= this.appleTrees.indexOf(this.interactingObject);
+                        this.interactingObject.setSprite("Tree");
+                        this.appleTrees.splice(index,1);
+                        
+                        break;
+                    case "grab bananas":
+                        index= this.bananaTrees.indexOf(this.interactingObject);
+                        this.bananaTrees.splice(index,1);
+                        this.interactingObject.setSprite("Tree");
+                        break;
+                    case "grab grapes":
+                        index= this.grapeBushes.indexOf(this.interactingObject);
+                        this.grapeBushes.splice(index,1);
+                        this.interactingObject.setSprite("bush");
+                        break;
+                    case "grab lemons":
+                        index= this.lemonBushes.indexOf(this.interactingObject);
+                        this.lemonBushes.splice(index,1);
+                        this.interactingObject.setSprite("bush");
+                        break;
+                    
+                }
+                this.interactingObject=undefined
+                return;
             }
 
             if(Math.abs((WIDTH/2)-(this.interactingObject.getGlobalPosition().x))>150||Math.abs((HEIGHT/2)-(this.interactingObject.getGlobalPosition().y))>150){
@@ -65,6 +98,15 @@ export class GameMap extends Container implements Updateable{
         }else{
 
             for(const tree of this.appleTrees){
+                if(Math.abs((WIDTH/2)-(tree.getGlobalPosition().x))<150 && Math.abs((HEIGHT/2)-(tree.getGlobalPosition().y))<150){
+                    tree.isInteractable(true)
+                    this.interactingObject=tree;
+                    tree.sprite.alpha=0.8;
+                    break;
+                }
+            }
+
+            for(const tree of this.bananaTrees){
                 if(Math.abs((WIDTH/2)-(tree.getGlobalPosition().x))<150 && Math.abs((HEIGHT/2)-(tree.getGlobalPosition().y))<150){
                     tree.isInteractable(true)
                     this.interactingObject=tree;
@@ -110,7 +152,7 @@ export class GameMap extends Container implements Updateable{
 
             //Se crean los minimos arboles necesarios (de bananas)
             for(let i=1;i<=minBanana;i++){
-                const bananaTree = new InteractableObject(Sprite.from("BananaTree"),"grab");
+                const bananaTree = new InteractableObject(Sprite.from("BananaTree"),"grab bananas");
                 let coord;
                 let random=0;
 
@@ -131,7 +173,7 @@ export class GameMap extends Container implements Updateable{
                 
                 //Lo agrega al array de arboles de bananas
                 this.bananaTrees.push(bananaTree);
-                bananaTree.sprite.scale.set(0.3,0.3);
+                bananaTree.scale.set(0.3,0.3);
                 this.addChild(bananaTree);
                 totalTrees-=1
 
@@ -139,7 +181,8 @@ export class GameMap extends Container implements Updateable{
             //Se crean los minimos arboles necesarios (de manzanas)
             for(let i=0;i<=minApples;i++){
 
-                const appleTree = new InteractableObject(Sprite.from("AppleTree"),"grab");
+                const appleTree = new InteractableObject(Sprite.from("AppleTree"),"grab apples");
+                appleTree.scale.set(0.3,0.3);
                 let random=0;
                 let coord;
 
@@ -156,13 +199,15 @@ export class GameMap extends Container implements Updateable{
                 if(coord!=undefined) {
 
                     appleTree.position.set(coord.x,coord.y);
+                    
                     this.treePositions.set(coord,false);
                 };
                 
                 //Lo agrega al array de arboles de manzanas
                 this.appleTrees.push(appleTree);
                 this.addChild(appleTree);
-                appleTree.sprite.scale.set(0.3,0.3);
+                
+                
     
                 totalTrees-=1
             }
@@ -178,13 +223,13 @@ export class GameMap extends Container implements Updateable{
             //Se selecciona un tipo de arbol al azar
             switch(random){
                 case 2:
-                    tree=new InteractableObject(Sprite.from("AppleTree"),"grab");
-                    tree.sprite.scale.set(0.3,0.3);
+                    tree=new InteractableObject(Sprite.from("AppleTree"),"grab apples");
+                    tree.scale.set(0.3,0.3);
                     this.appleTrees.push(tree);
                     break;
                 case 3:
-                    tree=new InteractableObject(Sprite.from("BananaTree"),"grab");
-                    tree.sprite.scale.set(0.3,0.3);
+                    tree=new InteractableObject(Sprite.from("BananaTree"),"grab bananas");
+                    tree.scale.set(0.3,0.3);
                     this.bananaTrees.push(tree);
                     break; 
                 default:

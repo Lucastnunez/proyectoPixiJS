@@ -3,6 +3,7 @@ import { ExtendedMap } from "./ExtendedMap";
 
 export abstract class GameMisc{
     public static readonly event: utils.EventEmitter = new utils.EventEmitter();
+    public static readonly map: Map<string,boolean> =new Map();
     
     static RandomNumberInRange(min:number, max:number){
         return Math.floor(Math.random()*(max-min)+min);
@@ -22,9 +23,14 @@ export abstract class GameMisc{
             positions.set(new Point(3970,2910),true);
             positions.set(new Point(4100,1445),true);
             positions.set(new Point(4450,1445),true);
+            positions.set(new Point(0,0),true);
 
         }
 
         return positions;
+    }
+
+    static emitEvent(event:string){
+        GameMisc.event.emit(event);
     }
 }
