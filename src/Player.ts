@@ -1,14 +1,15 @@
-import { Sprite } from "pixi.js";
+import { Texture } from "pixi.js";
 import { HEIGHT, WIDTH } from ".";
 import { ContPhysics } from "./ContPhysics";
 import { ExtendedMap } from "./ExtendedMap";
 import { GameMisc } from "./GameMisc";
 import { Keyboard } from "./keyboard";
+import { StateAnimation } from "./StateAnimation";
 
 
 export class Player extends ContPhysics{
 
-    private sprite: Sprite = Sprite.from("PlayerIdle1");
+    private sprite =new StateAnimation();
     private goals:Map<String,number>=new Map();
     public inventory:ExtendedMap<String,number>=new ExtendedMap();
 
@@ -17,10 +18,57 @@ export class Player extends ContPhysics{
     {
         super();
 
-        this.sprite.x =0;
-        this.sprite.y =0;   
-        this.sprite.scale.set(0.18, 0.18);
-        this.sprite.anchor.set(0.5,0.5);
+        this.sprite.addState("Idle",
+        [
+         Texture.from("PlayerIdle1"),   
+         Texture.from("PlayerIdle2"),  
+         Texture.from("PlayerIdle3"),  
+         Texture.from("PlayerIdle4")  
+        ],
+        1,true);
+
+        this.sprite.addState("Left",
+        [
+         Texture.from("PlayerLeft1"),   
+         Texture.from("PlayerLeft2"),  
+         Texture.from("PlayerLeft3"),  
+         Texture.from("PlayerLeft4"),
+         Texture.from("PlayerLeft5"), 
+         Texture.from("PlayerLeft6"),
+         Texture.from("PlayerLeft7")
+        ],
+        1,true);
+
+        this.sprite.addState("Right",
+        [
+         Texture.from("PlayerRight1"),   
+         Texture.from("PlayerRight2"),  
+         Texture.from("PlayerRight3"),  
+         Texture.from("PlayerRight4"),
+         Texture.from("PlayerRight5"), 
+         Texture.from("PlayerRight6"),
+         Texture.from("PlayerRight7")
+        ],
+        1,true);
+
+        this.sprite.addState("Back",
+        [
+         Texture.from("PlayerBack1"),   
+         Texture.from("PlayerBack2"),  
+         Texture.from("PlayerBack3"),  
+         Texture.from("PlayerBack4"),
+         Texture.from("PlayerBack5"), 
+         Texture.from("PlayerBack6"),
+         Texture.from("PlayerBack7")
+        ],
+        1,true);
+
+        this.sprite.playState("Idle");
+
+        // this.sprite.x =0;
+        // this.sprite.y =0;   
+        // this.sprite.scale.set(0.18, 0.18);
+        // this.sprite.anchor.set(0.5,0.5);
         
         this.addChild(this.sprite);
         this.setGoals();
@@ -39,9 +87,11 @@ export class Player extends ContPhysics{
         super.update(deltaMS/1000);
 
         if (Keyboard.map.get("ArrowUp") || Keyboard.map.get("KeyW")){
+            this.sprite.playState("Back");
             this.speed.y=-150
         }else{
             if (Keyboard.map.get("ArrowDown") || Keyboard.map.get("KeyS")){
+                this.sprite.playState("Idle");
                 this.speed.y=150
             }else{
                 this.speed.y=0
@@ -49,16 +99,18 @@ export class Player extends ContPhysics{
         }
 
         if (Keyboard.map.get("ArrowLeft") || Keyboard.map.get("KeyA")){
+            this.sprite.playState("Left");
             this.speed.x=-150
         }else{
             if (Keyboard.map.get("ArrowRight") || Keyboard.map.get("KeyD")){
+                this.sprite.playState("Right");
                 this.speed.x=150
             }else{
                 this.speed.x=0
             }
         }
         
-        this.on("grab apples",this.grabApple);
+        this.sprite.update(deltaMS);
     }
 
     public spawnPlayer(){

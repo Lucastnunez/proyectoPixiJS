@@ -44,7 +44,7 @@ window.addEventListener("resize",()=>{
 window.dispatchEvent(new Event("resize"));
 
 Assets.init({ manifest }).then(() =>{
-    Assets.loadBundle("AssetsPJ").then(() =>{
+    Assets.loadBundle(["AssetsPJ","Map_1", "Hud"]).then(() =>{
         const myScene = new GameScene();
         app.stage.addChild(myScene);
         Ticker.shared.add(function (deltaFrame){
