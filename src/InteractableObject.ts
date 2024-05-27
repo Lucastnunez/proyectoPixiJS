@@ -8,7 +8,7 @@ export class InteractableObject extends Container{
 
     constructor(sprite:Sprite, action:String){
         super()
-        
+
         this.sprite=sprite;
         this.sprite.anchor.set(0.5,0.5);
         this.addChild(this.sprite);
@@ -20,5 +20,9 @@ export class InteractableObject extends Container{
         if (this.interactable){
 
         }
+    }
+    
+    isInteractable(bool:boolean){
+        this.interactable=bool;
     }
 }

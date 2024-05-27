@@ -3,6 +3,7 @@ import { HEIGHT, WIDTH } from ".";
 import { ExtendedMap } from "./ExtendedMap";
 import { GameMisc } from "./GameMisc";
 import { InteractableObject } from "./InteractableObject";
+import { Keyboard } from "./keyboard";
 import { Updateable } from "./Updateable";
 
 
@@ -17,6 +18,7 @@ export class GameMap extends Container implements Updateable{
     public lemonBushes= [];
     public grapeBushes= [];
     public treePositions:ExtendedMap<Point,Boolean>;
+    private interactingObject:InteractableObject|undefined = undefined;
     
     
     
@@ -47,13 +49,27 @@ export class GameMap extends Container implements Updateable{
     }
     update(): void {
         //ver si se puede updatear el bg del index acá
-        this.appleTrees.forEach(tree => {
+        if (this.interactingObject!=undefined){
 
-            if(Math.abs((WIDTH/2)-(tree.getGlobalPosition().x))<150 && Math.abs((HEIGHT/2)-(tree.getGlobalPosition().y))<150){
-                 console.log("hola",tree.getGlobalPosition().x,tree.getGlobalPosition().y);
+            if (Keyboard.map.get("KeyE")){
+                GameMisc.event.emit("")
             }
-            
-        });
+
+            if(Math.abs((WIDTH/2)-(this.interactingObject.getGlobalPosition().x))>150){
+                this.interactingObject.isInteractable(false)
+                this.interactingObject=undefined;
+            }
+
+        }else{
+
+            for(const tree of this.appleTrees){
+                if(Math.abs((WIDTH/2)-(tree.getGlobalPosition().x))<150 && Math.abs((HEIGHT/2)-(tree.getGlobalPosition().y))<150){
+                    tree.isInteractable(true)
+                    this.interactingObject=tree;
+                    break;
+                }
+            }
+        }
     }
 
 

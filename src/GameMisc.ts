@@ -1,8 +1,9 @@
-import { Point } from "pixi.js";
+import { Point, utils } from "pixi.js";
 import { HEIGHT, WIDTH } from ".";
 import { ExtendedMap } from "./ExtendedMap";
 
 export abstract class GameMisc{
+    public static readonly event: utils.EventEmitter = new utils.EventEmitter();
     
     static RandomNumberInRange(min:number, max:number){
         return Math.floor(Math.random()*(max-min)+min);

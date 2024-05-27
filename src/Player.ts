@@ -1,6 +1,7 @@
 import { Sprite } from "pixi.js";
 import { HEIGHT, WIDTH } from ".";
 import { ContPhysics } from "./ContPhysics";
+import { ExtendedMap } from "./ExtendedMap";
 import { GameMisc } from "./GameMisc";
 import { Keyboard } from "./keyboard";
 
@@ -9,6 +10,7 @@ export class Player extends ContPhysics{
 
     private sprite: Sprite = Sprite.from("PlayerIdle1");
     private goals:Map<String,number>=new Map();
+    public inventory:ExtendedMap<String,number>=new ExtendedMap();
 
 
     constructor()
@@ -22,6 +24,11 @@ export class Player extends ContPhysics{
         
         this.addChild(this.sprite);
         this.setGoals();
+
+        this.inventory.set("apples",0);
+        this.inventory.set("bananas",0);
+        this.inventory.set("grapes",0);
+        this.inventory.set("lemons",0);
     }
 
     public override update(deltaMS: number): void {
