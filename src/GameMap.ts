@@ -38,7 +38,7 @@ export class GameMap extends Container implements Updateable{
         this.mapSprite=Sprite.from("Test");
         this.mapSprite.x=WIDTH/2;
         this.mapSprite.y=HEIGHT/2;
-        //this.mapSprite.scale.set(3.2,3.2);
+        this.mapSprite.scale.set(1.5,1.5);
         this.addChild(this.mapSprite);
         this.treePositions=GameMisc.GetTreePositionsFromMap("map_1");
         
@@ -55,9 +55,11 @@ export class GameMap extends Container implements Updateable{
                 GameMisc.event.emit("")
             }
 
-            if(Math.abs((WIDTH/2)-(this.interactingObject.getGlobalPosition().x))>150){
+            if(Math.abs((WIDTH/2)-(this.interactingObject.getGlobalPosition().x))>150||Math.abs((HEIGHT/2)-(this.interactingObject.getGlobalPosition().y))>150){
                 this.interactingObject.isInteractable(false)
+                this.interactingObject.sprite.alpha=1;
                 this.interactingObject=undefined;
+                
             }
 
         }else{
@@ -66,6 +68,7 @@ export class GameMap extends Container implements Updateable{
                 if(Math.abs((WIDTH/2)-(tree.getGlobalPosition().x))<150 && Math.abs((HEIGHT/2)-(tree.getGlobalPosition().y))<150){
                     tree.isInteractable(true)
                     this.interactingObject=tree;
+                    tree.sprite.alpha=0.8;
                     break;
                 }
             }
@@ -129,7 +132,7 @@ export class GameMap extends Container implements Updateable{
                 //Lo agrega al array de arboles de bananas
                 this.bananaTrees.push(bananaTree);
                 bananaTree.sprite.scale.set(0.3,0.3);
-                this.addChild(bananaTree.sprite);
+                this.addChild(bananaTree);
                 totalTrees-=1
 
             }

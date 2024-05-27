@@ -1,5 +1,4 @@
 import { Point, utils } from "pixi.js";
-import { HEIGHT, WIDTH } from ".";
 import { ExtendedMap } from "./ExtendedMap";
 
 export abstract class GameMisc{
@@ -11,16 +10,18 @@ export abstract class GameMisc{
 
     static GetTreePositionsFromMap(mapnumber:String):ExtendedMap<Point,boolean>{
         const positions:ExtendedMap<Point,boolean>=new ExtendedMap;
-
+        positions.clear;
+        
         if (mapnumber=="map_1"){
-            positions.set(new Point(190,189),true);
-            positions.set(new Point(WIDTH/2+100,HEIGHT/2+50),true);
-            positions.set(new Point(WIDTH/2+100,HEIGHT/2+100),true);
-            positions.set(new Point(WIDTH/2+100,HEIGHT/2+150),true);
-            positions.set(new Point(WIDTH/2+100,HEIGHT/2+200),true);
-            positions.set(new Point(WIDTH/2+100,HEIGHT/2+250),true);
-            positions.set(new Point(WIDTH/2+100,HEIGHT/2+300),true);
-            positions.set(new Point(WIDTH/2+100,HEIGHT/2+450),true);
+            
+            positions.set(new Point(1680,1760),true);
+            positions.set(new Point(1680,2360),true);
+            positions.set(new Point(1680,2960),true);
+            positions.set(new Point(1680,3560),true);
+            positions.set(new Point(1680,4160),true);
+            positions.set(new Point(3970,2910),true);
+            positions.set(new Point(4100,1445),true);
+            positions.set(new Point(4450,1445),true);
 
         }
 

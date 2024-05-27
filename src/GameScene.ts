@@ -1,4 +1,4 @@
-import { Container, Sprite, RenderTexture, Texture } from "pixi.js";
+import { Container, Sprite, RenderTexture, Texture, TextStyle, Text, BLEND_MODES } from "pixi.js";
 import { ContPhysics } from "./ContPhysics";
 import { Player } from "./Player";
 import { Updateable } from "./Updateable";
@@ -17,6 +17,13 @@ export class GameScene extends Container implements Updateable{
     private lightTexture= RenderTexture.create({width:WIDTH,height:HEIGHT});
     private background!: GameMap;
     private hud=new Container();
+    private style = new TextStyle({
+        fontFamily: "Times New Roman",
+        fontSize: 25,
+        fontWeight: "bold",
+        // stroke: "#ffffff",
+        // strokeThickness: 4
+    });
 
     constructor()
     {
@@ -47,7 +54,7 @@ export class GameScene extends Container implements Updateable{
         this.addChild(this.world)
 
 
-        // this.addChild(new Sprite(this.lightTexture)).blendMode = BLEND_MODES.MULTIPLY;
+        this.addChild(new Sprite(this.lightTexture)).blendMode = BLEND_MODES.MULTIPLY;
         // this.addChild(new Sprite(this.lightTexture)).blendMode = BLEND_MODES.MULTIPLY;
         // this.addChild(new Sprite(this.lightTexture)).blendMode = BLEND_MODES.MULTIPLY;
         
@@ -85,7 +92,47 @@ export class GameScene extends Container implements Updateable{
         paper.scale.set(0.2,0.2)
         paper.anchor.set(0.5,0.5);
 
+        
+
         this.hud.addChild(paper);
+        const auxText=new Text("Goals:",this.style);
+        auxText.position.set(110,50)
+        this.hud.addChild(auxText);
+
+        let textY=90;
+        const apples=this.prota.getGoals().get("Apples");
+        const bananas=this.prota.getGoals().get("Bananas");
+        const grapes=this.prota.getGoals().get("Grapes");
+        const lemons=this.prota.getGoals().get("Lemons");
+        
+        if(apples&&apples>0){
+            const text=new Text(apples+"x apples",this.style)
+            text.position.set(90,textY);
+            textY+=50
+            this.hud.addChild(text)
+        }
+
+        if(bananas&&bananas>0){
+            const text=new Text(bananas+"x bananas",this.style)
+            text.position.set(90,textY);
+            textY+=50
+            this.hud.addChild(text)
+        }
+
+        if(grapes&&grapes>0){
+            const text=new Text(grapes+"x grapes",this.style)
+            text.position.set(90,textY);
+            textY+=50
+            this.hud.addChild(text)
+        }
+
+        if(lemons&&lemons>0){
+            const text=new Text(lemons+"x lemons",this.style)
+            text.position.set(90,textY);
+            textY+=50
+            this.hud.addChild(text)
+        }
+
         this.addChild(this.hud);
         
         
@@ -96,6 +143,8 @@ export class GameScene extends Container implements Updateable{
 
             this.prota.update(deltaMS);
             this.background.update();
+
+            console.log(this.prota.getGlobalPosition().x,this.prota.getGlobalPosition().y);
 
             this.world.x=-this.prota.x * this.worldTransform.a + WIDTH/2;
             this.world.y=-this.prota.y * this.worldTransform.d + HEIGHT/2;
