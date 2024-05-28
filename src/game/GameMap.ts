@@ -1,10 +1,10 @@
 import { Container, Point, Sprite } from "pixi.js";
-import { HEIGHT, WIDTH } from ".";
-import { ExtendedMap } from "./ExtendedMap";
-import { GameMisc } from "./GameMisc";
+import { HEIGHT, WIDTH } from "..";
+import { ExtendedMap } from "../utils/ExtendedMap";
+import { GameMisc } from "../utils/GameMisc";
 import { InteractableObject } from "./InteractableObject";
-import { Keyboard } from "./keyboard";
-import { Updateable } from "./Updateable";
+import { Keyboard } from "../utils/keyboard";
+import { Updateable } from "../utils/Updateable";
 
 
 export class GameMap extends Container implements Updateable{
@@ -173,7 +173,6 @@ export class GameMap extends Container implements Updateable{
                 
                 //Lo agrega al array de arboles de bananas
                 this.bananaTrees.push(bananaTree);
-                bananaTree.scale.set(0.3,0.3);
                 this.addChild(bananaTree);
                 totalTrees-=1
 
@@ -182,7 +181,7 @@ export class GameMap extends Container implements Updateable{
             for(let i=0;i<=minApples;i++){
 
                 const appleTree = new InteractableObject(Sprite.from("AppleTree"),"grab apples");
-                appleTree.scale.set(0.3,0.3);
+                
                 let random=0;
                 let coord;
 

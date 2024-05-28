@@ -1,17 +1,19 @@
-import { Texture } from "pixi.js";
-import { HEIGHT, WIDTH } from ".";
-import { ContPhysics } from "./ContPhysics";
-import { ExtendedMap } from "./ExtendedMap";
-import { GameMisc } from "./GameMisc";
-import { Keyboard } from "./keyboard";
+import { Graphics, Rectangle, Texture } from "pixi.js";
+import { HEIGHT, WIDTH } from "..";
+import { ContPhysics } from "../game/ContPhysics";
+import { ExtendedMap } from "../utils/ExtendedMap";
+import { GameMisc } from "../utils/GameMisc";
+import { Keyboard } from "../utils/keyboard";
 import { StateAnimation } from "./StateAnimation";
 
 
 export class Player extends ContPhysics{
 
     private sprite =new StateAnimation();
+
     private goals:Map<String,number>=new Map();
     public inventory:ExtendedMap<String,number>=new ExtendedMap();
+    private hitbox: Graphics;
 
 
     constructor()
@@ -25,7 +27,7 @@ export class Player extends ContPhysics{
          Texture.from("PlayerIdle3"),  
          Texture.from("PlayerIdle4")  
         ],
-        1,true);
+        0.1,true);
 
         this.sprite.addState("Left",
         [
@@ -37,7 +39,7 @@ export class Player extends ContPhysics{
          Texture.from("PlayerLeft6"),
          Texture.from("PlayerLeft7")
         ],
-        1,true);
+        0.3,true);
 
         this.sprite.addState("Right",
         [
@@ -49,27 +51,37 @@ export class Player extends ContPhysics{
          Texture.from("PlayerRight6"),
          Texture.from("PlayerRight7")
         ],
-        1,true);
+        0.2,true);
 
         this.sprite.addState("Back",
         [
          Texture.from("PlayerBack1"),   
          Texture.from("PlayerBack2"),  
          Texture.from("PlayerBack3"),  
+         Texture.from("PlayerBack2"),  
+         Texture.from("PlayerBack1"),  
          Texture.from("PlayerBack4"),
          Texture.from("PlayerBack5"), 
          Texture.from("PlayerBack6"),
-         Texture.from("PlayerBack7")
+         Texture.from("PlayerBack7"),
+         Texture.from("PlayerBack6"),
+         Texture.from("PlayerBack5"),
+         Texture.from("PlayerBack1")  
         ],
         1,true);
 
         this.sprite.playState("Idle");
 
-        // this.sprite.x =0;
-        // this.sprite.y =0;   
-        // this.sprite.scale.set(0.18, 0.18);
-        // this.sprite.anchor.set(0.5,0.5);
-        
+        this.sprite.scale.set(0.18, 0.18);
+        this.sprite.pivot.set(0.5,0.5);
+    
+        this.hitbox=new Graphics()
+        this.hitbox.beginFill(0xFF00FF,0.3);
+        this.hitbox.drawRect(0,0,300,300);
+        this.hitbox.endFill();
+        this.hitbox.visible=false
+
+        this.sprite.addChild(this.hitbox);
         this.addChild(this.sprite);
         this.setGoals();
 
@@ -87,25 +99,28 @@ export class Player extends ContPhysics{
         super.update(deltaMS/1000);
 
         if (Keyboard.map.get("ArrowUp") || Keyboard.map.get("KeyW")){
-            this.sprite.playState("Back");
+            if (this.sprite.getCurrentName()!="Back") this.sprite.playState("Back");
+            console.log(this.sprite.getCurrentName())
             this.speed.y=-150
         }else{
             if (Keyboard.map.get("ArrowDown") || Keyboard.map.get("KeyS")){
-                this.sprite.playState("Idle");
+                if (this.sprite.getCurrentName()!="Idle") this.sprite.playState("Idle");
                 this.speed.y=150
             }else{
+                //this.sprite.setCurrentSpeed(0)
                 this.speed.y=0
             }
         }
 
         if (Keyboard.map.get("ArrowLeft") || Keyboard.map.get("KeyA")){
-            this.sprite.playState("Left");
+            if (this.sprite.getCurrentName()!="Left") this.sprite.playState("Left");
             this.speed.x=-150
         }else{
             if (Keyboard.map.get("ArrowRight") || Keyboard.map.get("KeyD")){
-                this.sprite.playState("Right");
+                if (this.sprite.getCurrentName()!="Right") this.sprite.playState("Right");
                 this.speed.x=150
             }else{
+                //this.sprite.setCurrentSpeed(0)
                 this.speed.x=0
             }
         }
@@ -179,6 +194,10 @@ export class Player extends ContPhysics{
         }
             
         console.log("You grabbed some lemons!",this.inventory.get("Lemons"))
+    }
+
+    public getHitbox():Rectangle{
+        return this.hitbox.getBounds();
     }
 
 }

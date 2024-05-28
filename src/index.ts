@@ -1,7 +1,10 @@
-import { Application, Assets, Ticker} from 'pixi.js'
-import { manifest } from './assets';
-import { Keyboard } from './keyboard';
-import { GameScene } from './GameScene';
+import { Application, Assets, Text, TextStyle } from 'pixi.js'
+import { GameScene } from './game/GameScene';
+import { manifest } from './ui/assets';
+import { Keyboard } from './utils/keyboard';
+import { SceneManager } from './utils/SceneManager';
+
+
 
 export const WIDTH=1920;
 export const HEIGHT= 1080;
@@ -30,11 +33,10 @@ window.addEventListener("resize",()=>{
     const marginV = Math.floor((window.innerHeight - gameHeight)/2);
     const marginH = Math.floor((window.innerWidth - gameWidth)/2);
     
-
-    app.view.style.height = gameHeight + "px";
-    app.view.style.width = gameWidth + "px";
+    app.view.style!.height = gameHeight + "px";
+    app.view.style!.width = gameWidth + "px";
     
-    app.view.style.marginLeft = marginH + "px"
+    app.view.style.marginLeft= marginH + "px"
     app.view.style.marginRight = marginH + "px"
     app.view.style.marginTop = marginV + "px"
     app.view.style.marginBottom = marginV + "px"
@@ -43,13 +45,24 @@ window.addEventListener("resize",()=>{
 
 window.dispatchEvent(new Event("resize"));
 
+const style = new TextStyle({
+    fontFamily: "Times New Roman",
+    fontSize: 35,
+    fontWeight: "bold",
+    stroke: "#ffffff",
+    strokeThickness: 4
+});
+
+const text= new Text("Loading...", style)
+text.position.set(100,HEIGHT-100)
+app.stage.addChild(text)
+
 Assets.init({ manifest }).then(() =>{
     Assets.loadBundle(["AssetsPJ","Map_1", "Hud"]).then(() =>{
+        text.destroy();
         const myScene = new GameScene();
-        app.stage.addChild(myScene);
-        Ticker.shared.add(function (deltaFrame){
-            myScene.update(Ticker.shared.deltaMS, deltaFrame);
-        });
+        SceneManager.initilize();
+        SceneManager.changeScene(myScene);
     });
 });
 

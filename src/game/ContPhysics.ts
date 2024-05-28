@@ -1,5 +1,5 @@
 import { Container, Point } from "pixi.js";
-import { Updateable } from "./Updateable"
+import { Updateable } from "../utils/Updateable";
 
 export class ContPhysics extends Container implements Updateable{
 

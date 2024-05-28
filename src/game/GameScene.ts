@@ -1,12 +1,13 @@
 import { Container, Sprite, RenderTexture, Texture, TextStyle, Text, BLEND_MODES } from "pixi.js";
 import { ContPhysics } from "./ContPhysics";
 import { Player } from "./Player";
-import { Updateable } from "./Updateable";
-import { WIDTH, HEIGHT, app } from "./index";
+import { Updateable } from "../utils/Updateable";
+import { WIDTH, HEIGHT, app } from "../index";
 import { Light } from "./Light";
 import { GameMap } from "./GameMap";
+import { SceneBase } from "../utils/SceneBase";
 
-export class GameScene extends Container implements Updateable{
+export class GameScene extends SceneBase implements Updateable{
 
     public prota: Player = new Player();
     private physicsProta: ContPhysics = new ContPhysics();

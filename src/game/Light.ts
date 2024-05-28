@@ -1,4 +1,4 @@
-import { Updateable } from "./Updateable";
+import { Updateable } from "../utils/Updateable";
 import { Sprite, Texture, Point, BLEND_MODES } from "pixi.js";
 
 export class Light extends Sprite implements Updateable{
