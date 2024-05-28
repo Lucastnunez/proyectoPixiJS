@@ -21,8 +21,6 @@ export class GameMap extends Container implements Updateable{
     public treePositions:ExtendedMap<Point,Boolean>;
     private interactingObject:InteractableObject|undefined = undefined;
     
-    
-    
     constructor(number:number){
         super();
 
@@ -50,7 +48,6 @@ export class GameMap extends Container implements Updateable{
     }
     update(): void {
         //ver si se puede updatear el bg del index acá
-
 
         if (this.interactingObject!=undefined){
 
@@ -223,17 +220,14 @@ export class GameMap extends Container implements Updateable{
             switch(random){
                 case 2:
                     tree=new InteractableObject(Sprite.from("AppleTree"),"grab apples");
-                    tree.scale.set(0.3,0.3);
                     this.appleTrees.push(tree);
                     break;
                 case 3:
                     tree=new InteractableObject(Sprite.from("BananaTree"),"grab bananas");
-                    tree.scale.set(0.3,0.3);
                     this.bananaTrees.push(tree);
                     break; 
                 default:
                     tree=Sprite.from("Tree");
-                    tree.scale.set(0.3,0.3);
                     tree.anchor.set(0.5,0.5);
                     break;
             }

@@ -44,7 +44,7 @@ export const manifest:AssetsManifest  = {
                 "Bush" : "./Map/bush.png",
                 "GrapeBush" : "./Map/grapeBush.png",
                 "LemonBush" : "./Map/lemonBush.png",
-                "Dirt" : "./Map/Dirt.png"
+                "Dirt" : "./Map/DirtLow.png"
             }
             
         },

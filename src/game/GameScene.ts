@@ -1,4 +1,4 @@
-import { Container, Sprite, RenderTexture, Texture, TextStyle, Text, BLEND_MODES } from "pixi.js";
+import { Container, Sprite, RenderTexture, Texture, TextStyle, Text, BLEND_MODES, TilingSprite } from "pixi.js";
 import { ContPhysics } from "./ContPhysics";
 import { Player } from "./Player";
 import { Updateable } from "../utils/Updateable";
@@ -17,6 +17,7 @@ export class GameScene extends SceneBase implements Updateable{
     private lightContainer = new Container();
     private lightTexture= RenderTexture.create({width:WIDTH,height:HEIGHT});
     private background!: GameMap;
+    private dirtBG!: TilingSprite;
     private hud=new Container();
     private style = new TextStyle({
         fontFamily: "Times New Roman",
@@ -25,6 +26,7 @@ export class GameScene extends SceneBase implements Updateable{
         // stroke: "#ffffff",
         // strokeThickness: 4
     });
+    
 
     constructor()
     {
@@ -39,10 +41,16 @@ export class GameScene extends SceneBase implements Updateable{
         if(ctx==null){
             return;
         }
+
+        this.dirtBG = new TilingSprite(Texture.from("Dirt"),WIDTH*4,HEIGHT*4);
+        this.dirtBG.position.set(WIDTH/2,HEIGHT/2);
+        this.dirtBG.anchor.set(0.5,0.5);
+        this.dirtBG.scale.set(0.3,0.3);
+        this.world.addChild(this.dirtBG);
    
 
         this.background= new GameMap(1)
-        this.background.position.set(110,110);
+        this.background.position.set(210,210);
 
         this.background.generateTrees(this.prota.getGoals());
       
@@ -52,11 +60,11 @@ export class GameScene extends SceneBase implements Updateable{
         this.prota.spawnPlayer();
         this.physicsProta.addChild(this.prota);
         this.world.addChild(this.physicsProta);
-        this.addChild(this.world)
+        this.addChild(this.world);
 
 
         this.addChild(new Sprite(this.lightTexture)).blendMode = BLEND_MODES.MULTIPLY;
-        // this.addChild(new Sprite(this.lightTexture)).blendMode = BLEND_MODES.MULTIPLY;
+        this.addChild(new Sprite(this.lightTexture)).blendMode = BLEND_MODES.MULTIPLY;
         // this.addChild(new Sprite(this.lightTexture)).blendMode = BLEND_MODES.MULTIPLY;
         
         const black = this.lightContainer.addChild(new Sprite(Texture.WHITE));
@@ -108,13 +116,16 @@ export class GameScene extends SceneBase implements Updateable{
 
             this.prota.update(deltaMS);
             this.background.update();
-
-            console.log(this.prota.x,this.prota.y);
+            console.log(this.prota.x-this.background.x,this.prota.y-this.background.y);
 
             this.world.x=-this.prota.x * this.worldTransform.a + WIDTH/2;
             this.world.y=-this.prota.y * this.worldTransform.d + HEIGHT/2;
             this.background.x=this.world.x*0.5;
             this.background.y=this.world.y*0.5;
+            this.dirtBG.tilePosition.set(this.world.x*5,this.world.y*5);
+
+            this.dirtBG.x=this.prota.x;
+            this.dirtBG.y=this.prota.y;
 
             app.renderer.render(this.lightContainer,{renderTexture: this.lightTexture, clear:true});
 
@@ -163,22 +174,22 @@ export class GameScene extends SceneBase implements Updateable{
         private addInventoryToHud()
         {
 
-            let fruit = Sprite.from("Lemon")
-        
-            fruit.position.set(WIDTH-100,HEIGHT-100)
-            this.hud.addChild(fruit)
+            const lemon = Sprite.from("Lemon")
+            const grape = Sprite.from("Grapes")
+            const banana = Sprite.from("Banana")
+            const apple = Sprite.from("Apple")
 
-            fruit.texture=Texture.from("Grapes");
-            fruit.position.set(WIDTH-200,HEIGHT-100)
-            this.hud.addChild(fruit)
+            lemon.position.set(WIDTH-100,HEIGHT-100)
+            this.hud.addChild(lemon)
 
-            fruit.texture=Texture.from("Banana");
-            fruit.position.set(WIDTH-300,HEIGHT-100)
-            this.hud.addChild(fruit)
+            grape.position.set(WIDTH-200,HEIGHT-100)
+            this.hud.addChild(grape)
+
+            banana.position.set(WIDTH-300,HEIGHT-100)
+            this.hud.addChild(banana)
             
-            fruit.texture=Texture.from("Apple");
-            fruit.position.set(WIDTH-400,HEIGHT-100)
-            this.hud.addChild(fruit)
+            apple.position.set(WIDTH-400,HEIGHT-100)
+            this.hud.addChild(apple)
         }
 
 }
