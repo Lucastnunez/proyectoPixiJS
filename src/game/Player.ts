@@ -23,11 +23,10 @@ export class Player extends ContPhysics{
         this.sprite.addState("Idle",
         [
          Texture.from("PlayerIdle1"),   
-         Texture.from("PlayerIdle2"),  
          Texture.from("PlayerIdle3"),  
-         Texture.from("PlayerIdle4")  
+         Texture.from("PlayerIdle2")
         ],
-        0.1,true);
+        0.008,true);
 
         this.sprite.addState("Left",
         [
@@ -39,7 +38,7 @@ export class Player extends ContPhysics{
          Texture.from("PlayerLeft6"),
          Texture.from("PlayerLeft7")
         ],
-        0.3,true);
+        0.01,true);
 
         this.sprite.addState("Right",
         [
@@ -51,7 +50,7 @@ export class Player extends ContPhysics{
          Texture.from("PlayerRight6"),
          Texture.from("PlayerRight7")
         ],
-        0.2,true);
+        0.01,true);
 
         this.sprite.addState("Back",
         [
@@ -68,7 +67,7 @@ export class Player extends ContPhysics{
          Texture.from("PlayerBack5"),
          Texture.from("PlayerBack1")  
         ],
-        1,true);
+        0.01,true);
 
         this.sprite.playState("Idle");
 
@@ -123,6 +122,9 @@ export class Player extends ContPhysics{
                 //this.sprite.setCurrentSpeed(0)
                 this.speed.x=0
             }
+        }
+        if (this.speed.x==0 && this.speed.y==0){
+            this.sprite.playState("Idle");
         }
         
         this.sprite.update(deltaMS);
