@@ -44,6 +44,7 @@ export const manifest:AssetsManifest  = {
                 "Bush" : "./Map/bush.png",
                 "GrapeBush" : "./Map/grapeBush.png",
                 "LemonBush" : "./Map/lemonBush.png",
+                "Dirt" : "./Map/Dirt.png"
             }
             
         },
@@ -55,6 +56,7 @@ export const manifest:AssetsManifest  = {
                 "Apple" : "./HUD/apple.png",
                 "Banana" : "./HUD/banana.png",
                 "Grapes" : "./HUD/grapes.png",
+                "Lemon" : "./HUD/lemon.png"
             }
         }
     ]

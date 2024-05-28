@@ -94,6 +94,8 @@ export class GameScene extends SceneBase implements Updateable{
         paper.anchor.set(0.5,0.5);
 
         this.hud.addChild(paper);
+
+        this.addInventoryToHud();
         this.addHudText();
 
         this.addChild(this.hud);
@@ -117,7 +119,7 @@ export class GameScene extends SceneBase implements Updateable{
             app.renderer.render(this.lightContainer,{renderTexture: this.lightTexture, clear:true});
 
     }
-        addHudText(){
+        private addHudText(){
             const auxText=new Text("Goals:",this.style);
             auxText.position.set(110,50)
             this.hud.addChild(auxText);
@@ -156,6 +158,27 @@ export class GameScene extends SceneBase implements Updateable{
                 textY+=50
                 this.hud.addChild(text)
             }
+        }
+
+        private addInventoryToHud()
+        {
+
+            let fruit = Sprite.from("Lemon")
+        
+            fruit.position.set(WIDTH-100,HEIGHT-100)
+            this.hud.addChild(fruit)
+
+            fruit.texture=Texture.from("Grapes");
+            fruit.position.set(WIDTH-200,HEIGHT-100)
+            this.hud.addChild(fruit)
+
+            fruit.texture=Texture.from("Banana");
+            fruit.position.set(WIDTH-300,HEIGHT-100)
+            this.hud.addChild(fruit)
+            
+            fruit.texture=Texture.from("Apple");
+            fruit.position.set(WIDTH-400,HEIGHT-100)
+            this.hud.addChild(fruit)
         }
 
 }
