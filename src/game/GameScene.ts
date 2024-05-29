@@ -69,7 +69,7 @@ export class GameScene extends SceneBase implements Updateable{
 
 
         this.addChild(new Sprite(this.lightTexture)).blendMode = BLEND_MODES.MULTIPLY;
-        this.addChild(new Sprite(this.lightTexture)).blendMode = BLEND_MODES.MULTIPLY;
+        // this.addChild(new Sprite(this.lightTexture)).blendMode = BLEND_MODES.MULTIPLY;
         // this.addChild(new Sprite(this.lightTexture)).blendMode = BLEND_MODES.MULTIPLY;
         
         const black = this.lightContainer.addChild(new Sprite(Texture.WHITE));
