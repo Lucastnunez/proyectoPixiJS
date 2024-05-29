@@ -9,7 +9,7 @@ import { SceneBase } from "../utils/SceneBase";
 import { SceneManager } from "../utils/SceneManager";
 import { WinScene } from "./WinScene";
 import { Keyboard } from "../utils/keyboard";
-import { checkCollision } from "./iHitbox";
+//import { checkCollision } from "./iHitbox";
 
 export class GameScene extends SceneBase implements Updateable{
 
@@ -69,7 +69,7 @@ export class GameScene extends SceneBase implements Updateable{
 
 
         this.addChild(new Sprite(this.lightTexture)).blendMode = BLEND_MODES.MULTIPLY;
-        // this.addChild(new Sprite(this.lightTexture)).blendMode = BLEND_MODES.MULTIPLY;
+        this.addChild(new Sprite(this.lightTexture)).blendMode = BLEND_MODES.MULTIPLY;
         // this.addChild(new Sprite(this.lightTexture)).blendMode = BLEND_MODES.MULTIPLY;
         
         const black = this.lightContainer.addChild(new Sprite(Texture.WHITE));
@@ -122,7 +122,7 @@ export class GameScene extends SceneBase implements Updateable{
 
             this.prota.update(deltaMS);
             this.background.update();
-            console.log(this.prota.x-this.background.x,this.prota.y-this.background.y);
+            //console.log(this.prota.x-this.background.x,this.prota.y-this.background.y);
             //console.log(Ticker.shared.FPS)
 
             this.world.x=-this.prota.x * this.worldTransform.a + WIDTH/2;
@@ -136,32 +136,6 @@ export class GameScene extends SceneBase implements Updateable{
 
             SceneManager.app.renderer.render(this.lightContainer,{renderTexture: this.lightTexture, clear:true});
             
-            for (const wall of this.background.hitboxes) {
-                
-                const overlap = checkCollision(this.prota,wall);
-                
-                if(overlap != null)
-                {
-                    if(overlap.width<overlap.height){
-
-                        if (this.prota.x > wall.x){
-                            this.prota.x+= overlap.width;
-                        }else{
-                            this.prota.x-= overlap.width;
-                        }
-
-                    }else{
-
-                        if (this.prota.y > wall.y){
-                            this.prota.y-= overlap.height;
-                        }else{
-                            this.prota.y+= overlap.height;
-                        }
-                        
-                    }
-
-                }
-            }
 
             //Check if player already won
             if(this.ifWon()||Keyboard.map.get("KeyZ"))
@@ -254,6 +228,33 @@ export class GameScene extends SceneBase implements Updateable{
                 }
             return false;
         }
+
+                    // for (const wall of this.background.hitboxes) {
+                
+            //     const overlap = checkCollision(this.prota,wall);
+                
+            //     if(overlap != null)
+            //     {
+            //         if(overlap.width<overlap.height){
+
+            //             if (this.prota.x > wall.x){
+            //                 this.prota.x-= overlap.width;
+            //             }else{
+            //                 this.prota.x+= overlap.width;
+            //             }
+
+            //         }else{
+
+            //             if (this.prota.y > wall.y){
+            //                 this.prota.y-= overlap.height;
+            //             }else{
+            //                 this.prota.y+= overlap.height;
+            //             }
+                        
+            //         }
+
+            //     }
+            // }
 }
     
 

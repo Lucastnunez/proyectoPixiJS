@@ -27,7 +27,7 @@ export class Player extends ContPhysics implements iHitbox{
             Texture.from("PlayerIdle3"),  
             Texture.from("PlayerIdle2")
         ],
-        0.008,true);
+        0.006,true);
 
         this.sprite.addState("Bottom",
         [
@@ -45,7 +45,7 @@ export class Player extends ContPhysics implements iHitbox{
             Texture.from("PlayerBottom5"),
             Texture.from("PlayerBottom6"),
         ],
-        0.01,true);
+        0.008,true);
 
         this.sprite.addState("Left",
         [
@@ -57,7 +57,7 @@ export class Player extends ContPhysics implements iHitbox{
             Texture.from("PlayerLeft6"),
             Texture.from("PlayerLeft7")
         ],
-        0.01,true);
+        0.008,true);
 
         this.sprite.addState("Right",
         [
@@ -69,7 +69,7 @@ export class Player extends ContPhysics implements iHitbox{
             Texture.from("PlayerRight6"),
             Texture.from("PlayerRight7")
         ],
-        0.01,true);
+        0.008,true);
 
         this.sprite.addState("Back",
         [
@@ -87,7 +87,7 @@ export class Player extends ContPhysics implements iHitbox{
          Texture.from("PlayerBack5"),
          Texture.from("PlayerBack1")  
         ],
-        0.01,true);
+        0.008,true);
 
         this.sprite.playState("Idle");
 
@@ -98,6 +98,7 @@ export class Player extends ContPhysics implements iHitbox{
         this.hitbox.beginFill(0xFF00FF,0.3);
         this.hitbox.drawRect(-50,45,100,40);
         this.hitbox.endFill();
+        this.hitbox.visible=false
 
         this.addChild(this.sprite);
         this.addChild(this.hitbox);
@@ -120,11 +121,11 @@ export class Player extends ContPhysics implements iHitbox{
         if (Keyboard.map.get("ArrowUp") || Keyboard.map.get("KeyW")){
             if (this.sprite.getCurrentName()!="Back") this.sprite.playState("Back");
             console.log(this.sprite.getCurrentName())
-            this.speed.y=-150
+            this.speed.y=-100
         }else{
             if (Keyboard.map.get("ArrowDown") || Keyboard.map.get("KeyS")){
                 if (this.sprite.getCurrentName()!="Bottom") this.sprite.playState("Bottom");
-                this.speed.y=150
+                this.speed.y=100
             }else{
                 //this.sprite.setCurrentSpeed(0)
                 this.speed.y=0
@@ -133,11 +134,11 @@ export class Player extends ContPhysics implements iHitbox{
 
         if (Keyboard.map.get("ArrowLeft") || Keyboard.map.get("KeyA")){
             if (this.sprite.getCurrentName()!="Left") this.sprite.playState("Left");
-            this.speed.x=-150
+            this.speed.x=-100
         }else{
             if (Keyboard.map.get("ArrowRight") || Keyboard.map.get("KeyD")){
                 if (this.sprite.getCurrentName()!="Right") this.sprite.playState("Right");
-                this.speed.x=150
+                this.speed.x=100
             }else{
                 //this.sprite.setCurrentSpeed(0)
                 this.speed.x=0
