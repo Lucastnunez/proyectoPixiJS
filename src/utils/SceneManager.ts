@@ -6,8 +6,7 @@ export namespace SceneManager{
 
     let currentScene:SceneBase; 
     export function initilize(){
-        
-        
+
         window.dispatchEvent(new Event("resize"));
 
         Ticker.shared.add(update)
@@ -16,9 +15,8 @@ export namespace SceneManager{
     export function changeScene(newScene:SceneBase){
 
 
-        if (currentScene){
-
-            currentScene.destroy
+        if (currentScene!=undefined){
+            currentScene.destroy();
         }
         currentScene=newScene
         app.stage.addChild(currentScene);
@@ -27,4 +25,4 @@ export namespace SceneManager{
     function update(frames:number){
         currentScene.update(Ticker.shared.deltaMS, frames);
     }
-    }
+}

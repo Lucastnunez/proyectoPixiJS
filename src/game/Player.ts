@@ -22,33 +22,51 @@ export class Player extends ContPhysics{
 
         this.sprite.addState("Idle",
         [
-         Texture.from("PlayerIdle1"),   
-         Texture.from("PlayerIdle3"),  
-         Texture.from("PlayerIdle2")
+            Texture.from("PlayerIdle1"),   
+            Texture.from("PlayerIdle3"),  
+            Texture.from("PlayerIdle2")
         ],
         0.008,true);
 
+        this.sprite.addState("Bottom",
+        [
+            Texture.from("PlayerIdle1"),
+            Texture.from("PlayerBottom2"),
+            Texture.from("PlayerBottom3"),   
+            Texture.from("PlayerBottom4"),  
+            Texture.from("PlayerBottom3"),  
+            Texture.from("PlayerBottom2"),
+            Texture.from("PlayerIdle1"),
+            Texture.from("PlayerBottom5"), 
+            Texture.from("PlayerBottom6"),
+            Texture.from("PlayerBottom1"),
+            Texture.from("PlayerBottom6"),
+            Texture.from("PlayerBottom5"),
+            Texture.from("PlayerBottom6"),
+        ],
+        0.01,true);
+
         this.sprite.addState("Left",
         [
-         Texture.from("PlayerLeft1"),   
-         Texture.from("PlayerLeft2"),  
-         Texture.from("PlayerLeft3"),  
-         Texture.from("PlayerLeft4"),
-         Texture.from("PlayerLeft5"), 
-         Texture.from("PlayerLeft6"),
-         Texture.from("PlayerLeft7")
+            Texture.from("PlayerLeft1"),   
+            Texture.from("PlayerLeft2"),  
+            Texture.from("PlayerLeft3"),  
+            Texture.from("PlayerLeft4"),
+            Texture.from("PlayerLeft5"), 
+            Texture.from("PlayerLeft6"),
+            Texture.from("PlayerLeft7")
         ],
         0.01,true);
 
         this.sprite.addState("Right",
         [
-         Texture.from("PlayerRight1"),   
-         Texture.from("PlayerRight2"),  
-         Texture.from("PlayerRight3"),  
-         Texture.from("PlayerRight4"),
-         Texture.from("PlayerRight5"), 
-         Texture.from("PlayerRight6"),
-         Texture.from("PlayerRight7")
+            Texture.from("PlayerRight1"),   
+            Texture.from("PlayerRight2"),  
+            Texture.from("PlayerRight3"),  
+            Texture.from("PlayerRight4"),
+            Texture.from("PlayerRight5"), 
+            Texture.from("PlayerRight6"),
+            Texture.from("PlayerRight7")
         ],
         0.01,true);
 
@@ -104,7 +122,7 @@ export class Player extends ContPhysics{
             this.speed.y=-150
         }else{
             if (Keyboard.map.get("ArrowDown") || Keyboard.map.get("KeyS")){
-                if (this.sprite.getCurrentName()!="Idle") this.sprite.playState("Idle");
+                if (this.sprite.getCurrentName()!="Bottom") this.sprite.playState("Bottom");
                 this.speed.y=150
             }else{
                 //this.sprite.setCurrentSpeed(0)
