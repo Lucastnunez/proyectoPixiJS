@@ -2,7 +2,7 @@ import { Container, Sprite, RenderTexture, Texture, TextStyle, Text, BLEND_MODES
 import { ContPhysics } from "./ContPhysics";
 import { Player } from "./Player";
 import { Updateable } from "../utils/Updateable";
-import { WIDTH, HEIGHT, app } from "../index";
+import { WIDTH, HEIGHT} from "../index";
 import { Light } from "./Light";
 import { GameMap } from "./GameMap";
 import { SceneBase } from "../utils/SceneBase";
@@ -131,7 +131,7 @@ export class GameScene extends SceneBase implements Updateable{
             this.dirtBG.x=this.prota.x;
             this.dirtBG.y=this.prota.y;
 
-            app.renderer.render(this.lightContainer,{renderTexture: this.lightTexture, clear:true});
+            SceneManager.app.renderer.render(this.lightContainer,{renderTexture: this.lightTexture, clear:true});
             if(this.ifWon()||Keyboard.map.get("KeyZ"))
             {
                 const scene= new WinScene();

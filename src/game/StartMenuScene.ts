@@ -1,5 +1,5 @@
 import { Assets, Text, TextStyle } from "pixi.js";
-import { app, HEIGHT, WIDTH } from "..";
+import { HEIGHT, WIDTH } from "..";
 import { manifest } from "../ui/assets";
 import { Keyboard } from "../utils/keyboard";
 import { SceneBase } from "../utils/SceneBase";
@@ -37,11 +37,11 @@ export class StartMenuScene extends SceneBase{
         this.playText.anchor.set(0.5,0.5);
         this.playText.position.set(WIDTH/2,HEIGHT/2)
         this.textTimer=0;
-        app.stage.addChild(this.playText);
+        this.addChild(this.playText);
         
         const text= new Text("Loading...", style)
         text.position.set(100,HEIGHT-100)
-        app.stage.addChild(text);
+        this.addChild(text);
     }
 
     public update(): void {
