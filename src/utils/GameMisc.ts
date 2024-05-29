@@ -1,12 +1,22 @@
 import { Point, utils } from "pixi.js";
+import { iHitbox } from "../iHitbox";
 import { ExtendedMap } from "./ExtendedMap";
 
 export abstract class GameMisc{
+
     public static readonly event: utils.EventEmitter = new utils.EventEmitter();
     public static readonly map: Map<string,boolean> =new Map();
     
     static RandomNumberInRange(min:number, max:number){
         return Math.floor(Math.random()*(max-min)+min);
+    }
+
+    static GetHitboxesFromMap(mapnumber: string): iHitbox[] {
+        const hitboxes:iHitbox[]=[];
+        if (mapnumber=="map_1"){
+            return hitboxes;
+        }
+        return hitboxes;
     }
 
     static GetTreePositionsFromMap(mapnumber:String):ExtendedMap<Point,boolean>{

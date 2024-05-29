@@ -5,14 +5,15 @@ import { GameMisc } from "../utils/GameMisc";
 import { InteractableObject } from "./InteractableObject";
 import { Keyboard } from "../utils/keyboard";
 import { Updateable } from "../utils/Updateable";
+import { iHitbox } from "../iHitbox";
+
 
 
 export class GameMap extends Container implements Updateable{
 
     public mapNumber: number;
     public mapSprite: Sprite;
-    //hitboxes
-    //lights
+    public hitboxes: Array<iHitbox>= new Array;
     public appleTrees: Array<InteractableObject>=new Array;
     public bananaTrees: Array<InteractableObject>=new Array;
     public lemonBushes: Array<InteractableObject>=new Array;
@@ -43,6 +44,7 @@ export class GameMap extends Container implements Updateable{
         this.addChild(this.mapSprite);
         this.treePositions=GameMisc.GetTreePositionsFromMap("map_1");
         this.bushesPositions=GameMisc.GetBushPositionsFromMap("map_1");
+        this.hitboxes=GameMisc.GetHitboxesFromMap("map_1");
 
         // switch (this.mapNumber){
 
