@@ -14,7 +14,7 @@ export const app = new Application<HTMLCanvasElement>({
     view: document.getElementById("pixi-canvas") as HTMLCanvasElement,
     resolution: window.devicePixelRatio || 1,
     autoDensity: true,
-    backgroundColor: 0x6495ed,
+    backgroundColor: 0x3e4347,
     width: WIDTH,
     height: HEIGHT,
 });
@@ -52,6 +52,34 @@ const style = new TextStyle({
     stroke: "#ffffff",
     strokeThickness: 4
 });
+// const style2 = new TextStyle({
+//     dropShadow: true,
+//     dropShadowBlur: 18,
+//     dropShadowDistance: 8,
+//     fill: "#e3e3e3",
+//     fontFamily: "Courier New",
+//     fontSize: 37,
+//     fontStyle: "italic",
+//     fontWeight: "bold",
+//     miterLimit: 5,
+//     stroke: "#1c1c1c",
+//     strokeThickness: 9
+// });
+
+// const playText= new Text("Press Enter to play!", style2)
+// playText.anchor.set(0.5,0.5);
+// playText.position.set(WIDTH/2,HEIGHT/2)
+// let textTimer=0;
+// app.stage.addChild(playText);
+
+// while(!Keyboard.map.get("Enter")){
+//     textTimer+=1
+//         if(textTimer>50){
+//             playText.visible=playText.visible;
+//             textTimer=0;
+//         }
+// }
+
 
 const text= new Text("Loading...", style)
 text.position.set(100,HEIGHT-100)

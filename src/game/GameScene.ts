@@ -6,6 +6,9 @@ import { WIDTH, HEIGHT, app } from "../index";
 import { Light } from "./Light";
 import { GameMap } from "./GameMap";
 import { SceneBase } from "../utils/SceneBase";
+import { SceneManager } from "../utils/SceneManager";
+import { WinScene } from "./WinScene";
+import { Keyboard } from "../utils/keyboard";
 
 export class GameScene extends SceneBase implements Updateable{
 
@@ -83,8 +86,8 @@ export class GameScene extends SceneBase implements Updateable{
         ctx.fill();
 
         const torchLight = new Light(canvas); 
-        torchLight.x=WIDTH/2-70;
-        torchLight.y=HEIGHT/2-120;
+        torchLight.x=WIDTH/2;
+        torchLight.y=HEIGHT/2;
         torchLight.scale.set(10);
         torchLight.tint=0xffeadd;
         torchLight.alpha=0.75;
@@ -114,6 +117,7 @@ export class GameScene extends SceneBase implements Updateable{
 
         update(deltaMS:number, _deltaFrame:number){
 
+
             this.prota.update(deltaMS);
             this.background.update();
             console.log(this.prota.x-this.background.x,this.prota.y-this.background.y);
@@ -128,6 +132,11 @@ export class GameScene extends SceneBase implements Updateable{
             this.dirtBG.y=this.prota.y;
 
             app.renderer.render(this.lightContainer,{renderTexture: this.lightTexture, clear:true});
+            if(this.ifWon()||Keyboard.map.get("KeyZ"))
+            {
+                const scene= new WinScene();
+                SceneManager.changeScene(scene)
+            }
 
     }
         private addHudText(){
@@ -178,20 +187,37 @@ export class GameScene extends SceneBase implements Updateable{
             const grape = Sprite.from("Grapes")
             const banana = Sprite.from("Banana")
             const apple = Sprite.from("Apple")
+            apple.scale.set(0.5,0.5)
+            lemon.scale.set(0.5,0.5)
+            grape.scale.set(0.5,0.5)
+            banana.scale.set(0.5,0.5)
+            
 
-            lemon.position.set(WIDTH-100,HEIGHT-100)
+            lemon.position.set(WIDTH-200,HEIGHT-200)
             this.hud.addChild(lemon)
 
-            grape.position.set(WIDTH-200,HEIGHT-100)
+            grape.position.set(WIDTH-300,HEIGHT-200)
             this.hud.addChild(grape)
 
-            banana.position.set(WIDTH-300,HEIGHT-100)
+            banana.position.set(WIDTH-400,HEIGHT-200)
             this.hud.addChild(banana)
             
-            apple.position.set(WIDTH-400,HEIGHT-100)
+            apple.position.set(WIDTH-500,HEIGHT-200)
             this.hud.addChild(apple)
         }
 
+        private ifWon():boolean {
+            if (
+                this.prota.getGoals().get("Apples")==this.prota.inventory.get("Apples") &&
+                this.prota.getGoals().get("Bananas")==this.prota.inventory.get("Bananas") &&
+                this.prota.getGoals().get("Grapes")==this.prota.inventory.get("Grapes") &&
+                this.prota.getGoals().get("Lemons")==this.prota.inventory.get("Lemons")
+                )
+                {  
+                    return true;
+                }
+            return false;
+        }
 }
     
 
