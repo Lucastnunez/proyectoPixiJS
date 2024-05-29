@@ -1,5 +1,5 @@
 import { Point, utils } from "pixi.js";
-import { iHitbox } from "../iHitbox";
+import { Wall } from "../game/Wall";
 import { ExtendedMap } from "./ExtendedMap";
 
 export abstract class GameMisc{
@@ -11,9 +11,10 @@ export abstract class GameMisc{
         return Math.floor(Math.random()*(max-min)+min);
     }
 
-    static GetHitboxesFromMap(mapnumber: string): iHitbox[] {
-        const hitboxes:iHitbox[]=[];
+    static GetHitboxesFromMap(mapnumber: string): Wall[] {
+        const hitboxes:Wall[]=[];
         if (mapnumber=="map_1"){
+            hitboxes.push(new Wall(1087,398,200,5000));
             return hitboxes;
         }
         return hitboxes;

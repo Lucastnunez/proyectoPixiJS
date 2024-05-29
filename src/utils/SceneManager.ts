@@ -48,6 +48,7 @@ export namespace SceneManager{
 
         if (currentScene!=undefined){
             currentScene.destroy();
+            console.log("destroyed.")
         }
         currentScene=newScene
         app.stage.addChild(currentScene);

@@ -5,7 +5,7 @@ import { GameMisc } from "../utils/GameMisc";
 import { InteractableObject } from "./InteractableObject";
 import { Keyboard } from "../utils/keyboard";
 import { Updateable } from "../utils/Updateable";
-import { iHitbox } from "../iHitbox";
+import { Wall } from "./Wall";
 
 
 
@@ -13,7 +13,7 @@ export class GameMap extends Container implements Updateable{
 
     public mapNumber: number;
     public mapSprite: Sprite;
-    public hitboxes: Array<iHitbox>= new Array;
+    public hitboxes: Array<Wall>= new Array;
     public appleTrees: Array<InteractableObject>=new Array;
     public bananaTrees: Array<InteractableObject>=new Array;
     public lemonBushes: Array<InteractableObject>=new Array;
@@ -53,7 +53,7 @@ export class GameMap extends Container implements Updateable{
     }
     update(): void {
         //ver si se puede updatear el bg del index acá
-
+        console.log("entrando")
         if (this.interactingObject!=undefined){
 
             if (Keyboard.map.get("KeyE")){
@@ -67,7 +67,6 @@ export class GameMap extends Container implements Updateable{
                         index= this.appleTrees.indexOf(this.interactingObject);
                         this.interactingObject.setSprite("Tree");
                         this.appleTrees.splice(index,1);
-                        
                         break;
                     case "grab bananas":
                         index= this.bananaTrees.indexOf(this.interactingObject);
@@ -77,14 +76,13 @@ export class GameMap extends Container implements Updateable{
                     case "grab grapes":
                         index= this.grapeBushes.indexOf(this.interactingObject);
                         this.grapeBushes.splice(index,1);
-                        this.interactingObject.setSprite("bush");
+                        this.interactingObject.setSprite("Bush");
                         break;
                     case "grab lemons":
                         index= this.lemonBushes.indexOf(this.interactingObject);
                         this.lemonBushes.splice(index,1);
-                        this.interactingObject.setSprite("bush");
+                        this.interactingObject.setSprite("Bush");
                         break;
-                    
                 }
                 this.interactingObject=undefined
                 return;
@@ -113,6 +111,24 @@ export class GameMap extends Container implements Updateable{
                     tree.isInteractable(true)
                     this.interactingObject=tree;
                     tree.sprite.alpha=0.8;
+                    break;
+                }
+            }
+
+            for(const bush of this.lemonBushes){
+                if(Math.abs((WIDTH/2)-(bush.getGlobalPosition().x))<150 && Math.abs((HEIGHT/2)-(bush.getGlobalPosition().y))<150){
+                    bush.isInteractable(true)
+                    this.interactingObject=bush;
+                    bush.sprite.alpha=0.8;
+                    break;
+                }
+            }
+
+            for(const bush of this.grapeBushes){
+                if(Math.abs((WIDTH/2)-(bush.getGlobalPosition().x))<150 && Math.abs((HEIGHT/2)-(bush.getGlobalPosition().y))<150){
+                    bush.isInteractable(true)
+                    this.interactingObject=bush;
+                    bush.sprite.alpha=0.8;
                     break;
                 }
             }
@@ -292,14 +308,14 @@ export class GameMap extends Container implements Updateable{
             
             
 
-            //Se crean los minimos arboles necesarios (de bananas)
+            //Se crean los minimos arbustos necesarios (de limones)
             for(let i=1;i<=minLemons;i++){
                 const lemonBush = new InteractableObject(Sprite.from("LemonBush"),"grab lemons");
                 let coord;
                 let random=0;
 
-                //Se obtiene una coord random de la lista de coords de arboles,
-                //y se controla que no esté ya ocupado por otro arbol.
+                //Se obtiene una coord random de la lista de coords de arbustos,
+                //y se controla que no esté ya ocupado por otro arbusto.
                 do {                  
                     random=GameMisc.RandomNumberInRange(0,(positions.length-1));
                     coord = positions.at(random)!;
@@ -313,13 +329,13 @@ export class GameMap extends Container implements Updateable{
                     this.bushesPositions.set(coord,false);
                 };
                 
-                //Lo agrega al array de arboles de bananas
+                //Lo agrega al array de arbustos de limones
                 this.lemonBushes.push(lemonBush);
                 this.addChild(lemonBush);
                 totalBushes-=1
 
             }
-            //Se crean los minimos arboles necesarios (de manzanas)
+            //Se crean los minimos arbusto necesarios (de uvas)
             for(let i=0;i<=minGrapes;i++){
 
                 const grapeBush = new InteractableObject(Sprite.from("GrapeBush"),"grab grapes");
@@ -327,8 +343,8 @@ export class GameMap extends Container implements Updateable{
                 let random=0;
                 let coord;
 
-                //Se obtiene una coord random de la lista de coords de arboles,
-                //y se controla que no esté ya ocupado por otro arbol.
+                //Se obtiene una coord random de la lista de coords de arbustos,
+                //y se controla que no esté ya ocupado por otro arbusto.
                 do{     
                     random=GameMisc.RandomNumberInRange(0,(positions.length-1));
                     coord = positions.at(random)!;
@@ -344,8 +360,8 @@ export class GameMap extends Container implements Updateable{
                     this.bushesPositions.set(coord,false);
                 };
                 
-                //Lo agrega al array de arboles de manzanas
-                this.appleTrees.push(grapeBush);
+                //Lo agrega al array de arbusto de uvas
+                this.grapeBushes.push(grapeBush);
                 this.addChild(grapeBush);
                 
                 
@@ -365,11 +381,11 @@ export class GameMap extends Container implements Updateable{
             switch(random){
                 case 2:
                     bush=new InteractableObject(Sprite.from("GrapeBush"),"grab grapes");
-                    this.appleTrees.push(bush);
+                    this.grapeBushes.push(bush);
                     break;
                 case 3:
                     bush=new InteractableObject(Sprite.from("LemonBush"),"grab lemons");
-                    this.bananaTrees.push(bush);
+                    this.lemonBushes.push(bush);
                     break; 
                 default:
                     bush=Sprite.from("Bush");

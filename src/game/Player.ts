@@ -4,10 +4,11 @@ import { ContPhysics } from "../game/ContPhysics";
 import { ExtendedMap } from "../utils/ExtendedMap";
 import { GameMisc } from "../utils/GameMisc";
 import { Keyboard } from "../utils/keyboard";
+import { iHitbox } from "./iHitbox";
 import { StateAnimation } from "./StateAnimation";
 
 
-export class Player extends ContPhysics{
+export class Player extends ContPhysics implements iHitbox{
 
     private sprite =new StateAnimation();
 
@@ -95,12 +96,12 @@ export class Player extends ContPhysics{
     
         this.hitbox=new Graphics()
         this.hitbox.beginFill(0xFF00FF,0.3);
-        this.hitbox.drawRect(0,0,300,300);
+        this.hitbox.drawRect(-50,45,100,40);
         this.hitbox.endFill();
-        this.hitbox.visible=false
 
-        this.sprite.addChild(this.hitbox);
         this.addChild(this.sprite);
+        this.addChild(this.hitbox);
+        
         this.setGoals();
 
         this.inventory.set("Apples",0);

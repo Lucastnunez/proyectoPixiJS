@@ -1,4 +1,4 @@
-import { Container, Sprite, RenderTexture, Texture, TextStyle, Text, BLEND_MODES, TilingSprite } from "pixi.js";
+import { Container, Sprite, RenderTexture, Texture, TextStyle, Text, TilingSprite, BLEND_MODES} from "pixi.js";
 import { ContPhysics } from "./ContPhysics";
 import { Player } from "./Player";
 import { Updateable } from "../utils/Updateable";
@@ -9,6 +9,7 @@ import { SceneBase } from "../utils/SceneBase";
 import { SceneManager } from "../utils/SceneManager";
 import { WinScene } from "./WinScene";
 import { Keyboard } from "../utils/keyboard";
+import { checkCollision } from "./iHitbox";
 
 export class GameScene extends SceneBase implements Updateable{
 
@@ -56,7 +57,8 @@ export class GameScene extends SceneBase implements Updateable{
         this.background.position.set(210,210);
 
         this.background.generateTrees(this.prota.getGoals());
-      
+        this.background.generateBushes(this.prota.getGoals());
+
         this.world.addChild(this.background);
         
 
@@ -67,7 +69,7 @@ export class GameScene extends SceneBase implements Updateable{
 
 
         this.addChild(new Sprite(this.lightTexture)).blendMode = BLEND_MODES.MULTIPLY;
-        this.addChild(new Sprite(this.lightTexture)).blendMode = BLEND_MODES.MULTIPLY;
+        // this.addChild(new Sprite(this.lightTexture)).blendMode = BLEND_MODES.MULTIPLY;
         // this.addChild(new Sprite(this.lightTexture)).blendMode = BLEND_MODES.MULTIPLY;
         
         const black = this.lightContainer.addChild(new Sprite(Texture.WHITE));
@@ -121,6 +123,7 @@ export class GameScene extends SceneBase implements Updateable{
             this.prota.update(deltaMS);
             this.background.update();
             console.log(this.prota.x-this.background.x,this.prota.y-this.background.y);
+            //console.log(Ticker.shared.FPS)
 
             this.world.x=-this.prota.x * this.worldTransform.a + WIDTH/2;
             this.world.y=-this.prota.y * this.worldTransform.d + HEIGHT/2;
@@ -132,6 +135,35 @@ export class GameScene extends SceneBase implements Updateable{
             this.dirtBG.y=this.prota.y;
 
             SceneManager.app.renderer.render(this.lightContainer,{renderTexture: this.lightTexture, clear:true});
+            
+            for (const wall of this.background.hitboxes) {
+                
+                const overlap = checkCollision(this.prota,wall);
+                
+                if(overlap != null)
+                {
+                    if(overlap.width<overlap.height){
+
+                        if (this.prota.x > wall.x){
+                            this.prota.x+= overlap.width;
+                        }else{
+                            this.prota.x-= overlap.width;
+                        }
+
+                    }else{
+
+                        if (this.prota.y > wall.y){
+                            this.prota.y-= overlap.height;
+                        }else{
+                            this.prota.y+= overlap.height;
+                        }
+                        
+                    }
+
+                }
+            }
+
+            //Check if player already won
             if(this.ifWon()||Keyboard.map.get("KeyZ"))
             {
                 const scene= new WinScene();
@@ -191,6 +223,10 @@ export class GameScene extends SceneBase implements Updateable{
             lemon.scale.set(0.5,0.5)
             grape.scale.set(0.5,0.5)
             banana.scale.set(0.5,0.5)
+            apple.alpha=0.3;
+            banana.alpha=0.3;
+            grape.alpha=0.3;
+            lemon.alpha=0.3;
             
 
             lemon.position.set(WIDTH-200,HEIGHT-200)
@@ -208,10 +244,10 @@ export class GameScene extends SceneBase implements Updateable{
 
         private ifWon():boolean {
             if (
-                this.prota.getGoals().get("Apples")==this.prota.inventory.get("Apples") &&
-                this.prota.getGoals().get("Bananas")==this.prota.inventory.get("Bananas") &&
-                this.prota.getGoals().get("Grapes")==this.prota.inventory.get("Grapes") &&
-                this.prota.getGoals().get("Lemons")==this.prota.inventory.get("Lemons")
+                this.prota.getGoals().get("Apples")!<=this.prota.inventory.get("Apples")! &&
+                this.prota.getGoals().get("Bananas")!<=this.prota.inventory.get("Bananas")! &&
+                this.prota.getGoals().get("Grapes")!<=this.prota.inventory.get("Grapes")! &&
+                this.prota.getGoals().get("Lemons")!<=this.prota.inventory.get("Lemons")!
                 )
                 {  
                     return true;
