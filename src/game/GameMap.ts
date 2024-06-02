@@ -45,6 +45,7 @@ export class GameMap extends Container implements Updateable{
         this.treePositions=GameMisc.GetTreePositionsFromMap("map_1");
         this.bushesPositions=GameMisc.GetBushPositionsFromMap("map_1");
         this.hitboxes=GameMisc.GetHitboxesFromMap("map_1");
+        this.addChild(this.hitboxes[0])
 
         // switch (this.mapNumber){
 
@@ -53,7 +54,6 @@ export class GameMap extends Container implements Updateable{
     }
     update(): void {
         //ver si se puede updatear el bg del index acá
-        console.log("entrando")
         if (this.interactingObject!=undefined){
 
             if (Keyboard.map.get("KeyE")){

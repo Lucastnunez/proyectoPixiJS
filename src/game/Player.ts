@@ -11,10 +11,9 @@ import { StateAnimation } from "./StateAnimation";
 export class Player extends ContPhysics implements iHitbox{
 
     private sprite =new StateAnimation();
-
+    private hitbox: Graphics;
     private goals:Map<String,number>=new Map();
     public inventory:ExtendedMap<String,number>=new ExtendedMap();
-    private hitbox: Graphics;
 
 
     constructor()
@@ -127,7 +126,6 @@ export class Player extends ContPhysics implements iHitbox{
                 if (this.sprite.getCurrentName()!="Bottom") this.sprite.playState("Bottom");
                 this.speed.y=100
             }else{
-                //this.sprite.setCurrentSpeed(0)
                 this.speed.y=0
             }
         }
@@ -140,7 +138,6 @@ export class Player extends ContPhysics implements iHitbox{
                 if (this.sprite.getCurrentName()!="Right") this.sprite.playState("Right");
                 this.speed.x=100
             }else{
-                //this.sprite.setCurrentSpeed(0)
                 this.speed.x=0
             }
         }
@@ -153,8 +150,8 @@ export class Player extends ContPhysics implements iHitbox{
 
     public spawnPlayer(){
         
-        this.x=WIDTH/2
-        this.y=HEIGHT/2
+        this.x=WIDTH/2+500
+        this.y=HEIGHT/2+200
 
         this.speed.x=0
         this.speed.y=0

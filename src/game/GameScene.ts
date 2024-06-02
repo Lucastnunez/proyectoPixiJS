@@ -1,4 +1,4 @@
-import { Container, Sprite, RenderTexture, Texture, TextStyle, Text, TilingSprite, BLEND_MODES} from "pixi.js";
+import { Container, Sprite, RenderTexture, Texture, TextStyle, Text, TilingSprite, BLEND_MODES, Graphics} from "pixi.js";
 import { ContPhysics } from "./ContPhysics";
 import { Player } from "./Player";
 import { Updateable } from "../utils/Updateable";
@@ -9,7 +9,7 @@ import { SceneBase } from "../utils/SceneBase";
 import { SceneManager } from "../utils/SceneManager";
 import { WinScene } from "./WinScene";
 import { Keyboard } from "../utils/keyboard";
-//import { checkCollision } from "./iHitbox";
+import { checkCollision } from "./iHitbox";
 
 export class GameScene extends SceneBase implements Updateable{
 
@@ -20,8 +20,10 @@ export class GameScene extends SceneBase implements Updateable{
 
     private lightContainer = new Container();
     private lightTexture= RenderTexture.create({width:WIDTH,height:HEIGHT});
+
     private background!: GameMap;
     private dirtBG!: TilingSprite;
+
     private hud=new Container();
     private style = new TextStyle({
         fontFamily: "Times New Roman",
@@ -114,11 +116,13 @@ export class GameScene extends SceneBase implements Updateable{
         this.addChild(this.hud);
         
         
-        console.log(this.prota.getGoals().get("Apples")+"Apples")
+        console.log(this.background.hitboxes)
     }
 
         update(deltaMS:number, _deltaFrame:number){
 
+            SceneManager.app.renderer.render(this.lightContainer,{renderTexture: this.lightTexture, clear:true});
+            
 
             this.prota.update(deltaMS);
             this.background.update();
@@ -134,8 +138,40 @@ export class GameScene extends SceneBase implements Updateable{
             this.dirtBG.x=this.prota.x;
             this.dirtBG.y=this.prota.y;
 
-            SceneManager.app.renderer.render(this.lightContainer,{renderTexture: this.lightTexture, clear:true});
             
+            for (const wall of this.background.hitboxes) {
+                
+                const overlap = checkCollision(this.prota,wall);
+                
+                if(overlap != null)
+                {   
+                    const grap=new Graphics()
+                    grap.beginFill(0xFFAAFF,0.3)
+                    grap.drawRect(overlap.x,overlap.y,overlap.width,overlap.height);
+                    grap.endFill();
+
+
+                    if(overlap.width<overlap.height){
+
+                        if (this.prota.x > wall.x){
+                            this.prota.x+= overlap.width;
+                        }else if (this.prota.x < wall.x){
+                            this.prota.x-= overlap.width;
+                        }
+
+                    }else if(overlap.width>overlap.height){
+
+                        if (this.prota.y > wall.y){
+                            this.prota.y-= overlap.height;
+                        }else if (this.prota.y < wall.y){
+                            this.prota.y+= overlap.height;
+                        }
+                        
+                    }
+                    grap.destroy()
+
+                }
+            }
 
             //Check if player already won
             if(this.ifWon()||Keyboard.map.get("KeyZ"))
@@ -229,32 +265,7 @@ export class GameScene extends SceneBase implements Updateable{
             return false;
         }
 
-                    // for (const wall of this.background.hitboxes) {
-                
-            //     const overlap = checkCollision(this.prota,wall);
-                
-            //     if(overlap != null)
-            //     {
-            //         if(overlap.width<overlap.height){
 
-            //             if (this.prota.x > wall.x){
-            //                 this.prota.x-= overlap.width;
-            //             }else{
-            //                 this.prota.x+= overlap.width;
-            //             }
-
-            //         }else{
-
-            //             if (this.prota.y > wall.y){
-            //                 this.prota.y-= overlap.height;
-            //             }else{
-            //                 this.prota.y+= overlap.height;
-            //             }
-                        
-            //         }
-
-            //     }
-            // }
 }
     
 
