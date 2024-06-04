@@ -73,7 +73,11 @@ export abstract class GameMisc{
         return positions;
     }
 
-    static emitEvent(event:string){
+    static emitEvent(event:string,args?:any[]){
+        if(args!=undefined){
+            GameMisc.event.emit(event,args);
+            return;
+        }
         GameMisc.event.emit(event);
     }
 }

@@ -6,6 +6,7 @@ import { InteractableObject } from "./InteractableObject";
 import { Keyboard } from "../utils/keyboard";
 import { Updateable } from "../utils/Updateable";
 import { Wall } from "./Wall";
+import { Player } from "./Player";
 
 
 
@@ -19,8 +20,9 @@ export class GameMap extends Container implements Updateable{
     public lemonBushes: Array<InteractableObject>=new Array;
     public grapeBushes: Array<InteractableObject>=new Array;
 
-    public treePositions:ExtendedMap<Point,Boolean>;
-    public bushesPositions:ExtendedMap<Point,Boolean>;
+    public player:Player;
+    private treePositions:ExtendedMap<Point,Boolean>;
+    private bushesPositions:ExtendedMap<Point,Boolean>;
 
     private interactingObject:InteractableObject|undefined = undefined;
     
@@ -37,6 +39,7 @@ export class GameMap extends Container implements Updateable{
             this.mapNumber=number;
         };
 
+        this.player=new Player();
         this.mapSprite=Sprite.from("Test");
         this.mapSprite.x=WIDTH/2;
         this.mapSprite.y=HEIGHT/2;
@@ -133,6 +136,10 @@ export class GameMap extends Container implements Updateable{
                 }
             }
         }
+    }
+
+    public assignPlayer(player:Player){
+        this.player=player;
     }
 
 
