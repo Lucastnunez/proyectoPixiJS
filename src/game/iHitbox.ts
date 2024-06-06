@@ -11,17 +11,17 @@ export function checkCollision(objA:iHitbox, objB: iHitbox):Rectangle | null {
     const rectA = objA.getHitbox();
     const rectB = objB.getHitbox();
 
-    const rightML= rectA.left < rectB.left ? rectB.left : rectA.left;
-    const leftMR= rectA.right > rectB.right ? rectB.right : rectA.right;
-    const bottomMT= rectA.top < rectB.top ? rectB.top : rectA.top;
-    const topMB= rectA.bottom > rectB.bottom ? rectB.bottom : rectA.bottom;
+    const RMLeft= rectA.left < rectB.left ? rectB.left : rectA.left;
+    const LMRight= rectA.right > rectB.right ? rectB.right : rectA.right;
+    const BMTop= rectA.top < rectB.top ? rectB.top : rectA.top;
+    const TMBottom= rectA.bottom > rectB.bottom ? rectB.bottom : rectA.bottom;
 
-    if(rightML<leftMR && bottomMT<topMB){
+    if(RMLeft<LMRight && BMTop<TMBottom){
         const rectangle= new Rectangle();
-        rectangle.x = rightML;
-        rectangle.y = bottomMT;
-        rectangle.width = leftMR - rightML;
-        rectangle.height = topMB - bottomMT;
+        rectangle.x = RMLeft;
+        rectangle.y = BMTop;
+        rectangle.width = LMRight - RMLeft;
+        rectangle.height = TMBottom - BMTop;
         return rectangle;
     }
     

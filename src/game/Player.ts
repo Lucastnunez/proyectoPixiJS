@@ -97,7 +97,7 @@ export class Player extends ContPhysics implements iHitbox{
         this.hitbox.beginFill(0xFF00FF,0.3);
         this.hitbox.drawRect(-50,45,100,40);
         this.hitbox.endFill();
-        this.hitbox.visible=false
+        this.hitbox.visible=true
 
         this.addChild(this.sprite);
         this.addChild(this.hitbox);
@@ -108,6 +108,7 @@ export class Player extends ContPhysics implements iHitbox{
         this.inventory.set("Bananas",0);
         this.inventory.set("Grapes",0);
         this.inventory.set("Lemons",0);
+
         GameMisc.event.on("grab apples",this.grabApple,this);
         GameMisc.event.on("grab bananas",this.grabBanana,this);
         GameMisc.event.on("grab grapes",this.grabGrape,this);

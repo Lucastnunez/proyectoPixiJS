@@ -7,14 +7,14 @@ export class InteractableObject extends Container{
     public action:string="do";
     
 
-    constructor(sprite:Sprite, action:string){
+    constructor(sprite:Sprite, actionEvent:string){
         super()
 
         this.sprite=sprite;
         this.sprite.anchor.set(0.5,0.5);
         this.addChild(this.sprite);
         
-        this.action=action;
+        this.action=actionEvent;
     }
 
     interact(){

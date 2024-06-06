@@ -11,7 +11,6 @@ export class Wall extends Container implements iHitbox{
         this.hitbox.drawRect(x,y,width,height);
         this.hitbox.endFill();
         this.addChild(this.hitbox);
-        
     }
     getHitbox(): Rectangle {
         return this.hitbox.getBounds();
