@@ -1,9 +1,10 @@
-import { Graphics, Rectangle, Texture } from "pixi.js";
+import { Graphics, Rectangle, TextStyle, Texture } from "pixi.js";
 import { HEIGHT, WIDTH } from "..";
 import { ContPhysics } from "../game/ContPhysics";
 import { ExtendedMap } from "../utils/ExtendedMap";
 import { GameMisc } from "../utils/GameMisc";
 import { Keyboard } from "../utils/keyboard";
+import { TempText } from "../utils/TempText";
 import { iHitbox } from "./iHitbox";
 import { StateAnimation } from "./StateAnimation";
 
@@ -91,7 +92,7 @@ export class Player extends ContPhysics implements iHitbox{
         this.sprite.playState("Idle");
 
         this.sprite.scale.set(0.18, 0.18);
-        this.sprite.pivot.set(0.5,0.5);
+        //this.sprite.pivot.set(0.5,0.5);
     
         this.hitbox=new Graphics()
         this.hitbox.beginFill(0xFF00FF,0.3);
@@ -180,10 +181,27 @@ export class Player extends ContPhysics implements iHitbox{
     public grabApple(){
         let fruit=this.inventory.get("Apples")
         if(fruit!=undefined){
-            fruit+=GameMisc.RandomNumberInRange(4,6);;
+            
+            const random=GameMisc.RandomNumberInRange(4,6);
+            fruit+=random
+            const text=new TempText(("+"+random+"Apples"),3000,new TextStyle({
+                fill: "#ffffff",
+                fontFamily: "CuteDinoFont",
+                fontSize: 35,
+                strokeThickness: 8
+            }),1000,500);
+            
+
+            this.addChild(text);
+            text.y-=100
+            text.x-=50
+
+            text.playText();
+
             this.inventory.set("Apples",fruit);
         }
-            
+        
+        
         console.log("You grabbed some apples!",this.inventory.get("Apples"))
     }
 
